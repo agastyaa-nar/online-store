@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/env.php';
+require_once __DIR__ . '/env.php'; 
 
 class Database {
     private $conn;
@@ -7,27 +7,32 @@ class Database {
     public function getConnection() {
         $this->conn = null;
 
-        try {
-            // load .env
+        // Load .env jika di lokal
+        if (file_exists(__DIR__ . '/../.env')) {
             loadEnv(__DIR__ . '/../.env');
+        }
 
-            $host = $_ENV['DB_HOST'];
-            $port = $_ENV['DB_PORT'];
-            $dbname = $_ENV['DB_DATABASE'];
-            $user = $_ENV['DB_USERNAME'];
-            $pass = $_ENV['DB_PASSWORD'];
+        $driver = $_ENV['DB_CONNECTION'] ?? 'pgsql';
+        $host = $_ENV['DB_HOST'] ?? 'localhost';
+        $port = $_ENV['DB_PORT'] ?? '5432';
+        $dbname = $_ENV['DB_DATABASE'] ?? 'online_store';
+        $user = $_ENV['DB_USERNAME'] ?? 'postgres';
+        $pass = $_ENV['DB_PASSWORD'] ?? '';
 
-            $this->conn = new PDO(
-                "{$_ENV['DB_CONNECTION']}:host=$host;port=$port;dbname=$dbname",
-                $user,
-                $pass
-            );
+        try {
+            $dsn = "$driver:host=$host;port=$port;dbname=$dbname";
+            $this->conn = new PDO($dsn, $user, $pass);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        } catch(PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+        } catch(PDOException $e) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Database connection failed: " . $e->getMessage()
+            ]);
+            exit;
         }
 
         return $this->conn;
     }
 }
+?>

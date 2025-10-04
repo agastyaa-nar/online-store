@@ -1,5 +1,6 @@
 <?php
-function loadEnv($path) {
+function loadEnv(string $path): void
+{
     if (!file_exists($path)) {
         throw new Exception(".env file not found at $path");
     }
@@ -7,17 +8,27 @@ function loadEnv($path) {
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
     foreach ($lines as $line) {
-        // Skip komentar
-        if (strpos(trim($line), '#') === 0) {
+        $line = trim($line);
+
+        // Lewati baris kosong atau komentar
+        if ($line === '' || str_starts_with($line, '#')) {
             continue;
         }
 
-        // Pisahkan KEY=VALUE
-        list($name, $value) = explode('=', $line, 2);
-        $name = trim($name);
+        // Pastikan baris valid (mengandung "=")
+        if (!str_contains($line, '=')) {
+            continue;
+        }
+
+        [$key, $value] = explode('=', $line, 2);
+        $key = trim($key);
         $value = trim($value);
 
-        // Masukkan ke $_ENV
-        $_ENV[$name] = $value;
+        // Hilangkan tanda kutip kalau ada
+        $value = trim($value, "\"'");
+
+        // Simpan ke environment global
+        $_ENV[$key] = $value;
+        putenv("$key=$value");
     }
 }
