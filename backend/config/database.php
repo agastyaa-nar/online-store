@@ -25,17 +25,21 @@ class Database {
             $user = $url_parts['user'];
             $pass = $url_parts['pass'];
         } else {
-            // Fallback to individual environment variables (Railway format)
-            $driver = $_ENV['DB_CONNECTION'] ?? getenv('DB_CONNECTION') ?? 'pgsql';
-            $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?? 'localhost';
-            $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?? '5432';
-            $dbname = $_ENV['DB_DATABASE'] ?? getenv('DB_DATABASE') ?? 'online_store';
-            $user = $_ENV['DB_USERNAME'] ?? getenv('DB_USERNAME') ?? 'postgres';
+            // Fallback to individual environment variables (InfinityFree MySQL format)
+            $driver = $_ENV['DB_CONNECTION'] ?? getenv('DB_CONNECTION') ?? 'mysql';
+            $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?? 'sql212.infinityfree.com';
+            $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?? '3306';
+            $dbname = $_ENV['DB_DATABASE'] ?? getenv('DB_DATABASE') ?? 'if0_36512345_online_store';
+            $user = $_ENV['DB_USERNAME'] ?? getenv('DB_USERNAME') ?? 'if0_36512345';
             $pass = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD') ?? '';
         }
 
         try {
-            $dsn = "$driver:host=$host;port=$port;dbname=$dbname";
+            if ($driver === 'mysql') {
+                $dsn = "$driver:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+            } else {
+                $dsn = "$driver:host=$host;port=$port;dbname=$dbname";
+            }
             $this->conn = new PDO($dsn, $user, $pass);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

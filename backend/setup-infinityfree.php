@@ -1,7 +1,7 @@
 <?php
 /**
- * Railway Database Setup Script
- * Run this script to initialize the database on Railway
+ * InfinityFree Database Setup Script
+ * Run this script to initialize the database on InfinityFree
  */
 
 require_once __DIR__ . '/config/database.php';
@@ -12,7 +12,7 @@ if (file_exists(__DIR__ . '/.env')) {
     loadEnv(__DIR__ . '/.env');
 }
 
-echo "🚀 Starting Railway Database Setup...\n\n";
+echo "🚀 Starting InfinityFree Database Setup...\n\n";
 
 try {
     $database = new Database();
@@ -20,14 +20,14 @@ try {
     
     echo "✅ Database connection successful!\n";
     
-    // Read and execute schema.sql
+    // Read and execute MySQL schema
     $schema_sql = file_get_contents(__DIR__ . '/database/schema.sql');
     
     if ($schema_sql === false) {
         throw new Exception("Could not read schema.sql file");
     }
     
-    echo "📖 Reading database schema...\n";
+    echo "📖 Reading MySQL database schema...\n";
     
     // Split SQL into individual statements
     $statements = array_filter(
@@ -73,7 +73,7 @@ try {
     echo "   - Superadmin: superadmin / password\n";
     echo "   - Admin: admin / password\n\n";
     
-    echo "🎉 Database setup completed successfully!\n";
+    echo "🎉 InfinityFree database setup completed successfully!\n";
     
 } catch (Exception $e) {
     if (isset($db)) {
@@ -81,8 +81,8 @@ try {
     }
     
     echo "❌ Error setting up database: " . $e->getMessage() . "\n";
-    echo "🔧 Please check your DATABASE_URL configuration.\n";
-    echo "📋 Make sure PostgreSQL service is running in Railway.\n";
+    echo "🔧 Please check your database configuration.\n";
+    echo "📋 Make sure MySQL database is created in InfinityFree.\n";
     exit(1);
 }
 ?>
