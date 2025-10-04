@@ -1,9 +1,0 @@
-[build]
-builder = "NIXPACKS"
-
-[variables]
-# Paksa Nixpacks pakai PHP terbaru
-NIXPACKS_PHP_VERSION = "8.3"
-
-[start]
-cmd = "php -S 0.0.0.0:${PORT:-8080} -t backend/public"
