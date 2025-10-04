@@ -88,6 +88,9 @@ try {
         case 'orders':
             require_once __DIR__ . '/public/orders.php';
             break;
+        case 'setup-infinityfree':
+            require_once __DIR__ . '/setup-infinityfree.php';
+            break;
         default:
             http_response_code(404);
             echo json_encode([

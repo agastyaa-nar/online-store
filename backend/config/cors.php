@@ -17,26 +17,23 @@ function setCorsHeaders() {
     $is_production = ($_ENV['APP_ENV'] ?? 'development') === 'production';
     
     if ($is_production) {
-        // Production: Use environment variable for allowed origins
-        $allowed_origins = $_ENV['ALLOWED_ORIGINS'] ?? getenv('ALLOWED_ORIGINS') ?? '';
+        // Production: Allow Vercel frontend
+        $allowed_origins = [
+            'https://narr-online-store.vercel.app',
+            'https://personal-web1.lovestoblog.com'
+        ];
         
-        // If no environment variable set, use hardcoded production origins
-        if (!$allowed_origins) {
-            $allowed_origins = 'https://narr-online-store.vercel.app';
-        }
-        
-        $allowed_origins_list = explode(',', $allowed_origins);
         // Remove trailing slash for comparison
         $origin_clean = rtrim($origin, '/');
-        $allowed_origins_clean = array_map(function($url) { return rtrim($url, '/'); }, $allowed_origins_list);
+        $allowed_origins_clean = array_map(function($url) { return rtrim($url, '/'); }, $allowed_origins);
         
         if (in_array($origin_clean, $allowed_origins_clean)) {
             header('Access-Control-Allow-Origin: ' . $origin);
             error_log("CORS: Allowed origin: " . $origin);
         } else {
-            // Use the first allowed origin as fallback
-            header('Access-Control-Allow-Origin: ' . $allowed_origins_clean[0]);
-            error_log("CORS: Using fallback origin: " . $allowed_origins_clean[0] . " for request from: " . $origin);
+            // Always allow Vercel frontend as fallback
+            header('Access-Control-Allow-Origin: https://narr-online-store.vercel.app');
+            error_log("CORS: Using fallback origin for request from: " . $origin);
         }
     } else {
         // Development: Allow localhost and common dev ports
