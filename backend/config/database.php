@@ -1,22 +1,29 @@
 <?php
+require_once __DIR__ . '/env.php';
+
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'online_store';
-    private $username = 'postgres';
-    private $password = 'narisa210404';
-    private $port = '5432';
     private $conn;
 
     public function getConnection() {
         $this->conn = null;
 
         try {
+            // load .env
+            loadEnv(__DIR__ . '/../.env');
+
+            $host = $_ENV['DB_HOST'];
+            $port = $_ENV['DB_PORT'];
+            $dbname = $_ENV['DB_DATABASE'];
+            $user = $_ENV['DB_USERNAME'];
+            $pass = $_ENV['DB_PASSWORD'];
+
             $this->conn = new PDO(
-                "pgsql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name,
-                $this->username,
-                $this->password
+                "{$_ENV['DB_CONNECTION']}:host=$host;port=$port;dbname=$dbname",
+                $user,
+                $pass
             );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         } catch(PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
         }
@@ -24,4 +31,3 @@ class Database {
         return $this->conn;
     }
 }
-?>

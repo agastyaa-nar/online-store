@@ -1,0 +1,7 @@
+{
+  "name": "online-store/backend",
+  "description": "Simple PHP backend for online store",
+  "require": {
+    "php": ">=8.0"
+  }
+}
