@@ -47,6 +47,7 @@ A full-stack e-commerce application built with React, TypeScript, Tailwind CSS, 
 
 2. **Install Frontend Dependencies**
    ```bash
+   cd frontend
    npm install
    ```
 
@@ -70,7 +71,7 @@ A full-stack e-commerce application built with React, TypeScript, Tailwind CSS, 
 
 6. **Configure Environment**
    - Update `backend/config/database.php` with your database credentials
-   - Update `src/services/api.ts` with your API base URL
+   - Update `frontend/src/services/api.ts` with your API base URL
 
 ### Development
 
@@ -82,6 +83,7 @@ A full-stack e-commerce application built with React, TypeScript, Tailwind CSS, 
 
 2. **Start Frontend Development Server**
    ```bash
+   cd frontend
    npm run dev
    ```
 
@@ -118,54 +120,56 @@ The project includes comprehensive unit tests for:
 
 ```
 online-store/
-├── src/                          # Frontend source code
-│   ├── components/               # Reusable UI components
-│   │   ├── ui/                  # Shadcn UI components
-│   │   ├── Navbar.tsx           # Navigation component
-│   │   ├── ProductCard.tsx      # Product display component
-│   │   └── Footer.tsx           # Footer component
-│   ├── pages/                   # Page components
-│   │   ├── Index.tsx            # Home page
-│   │   ├── CollectionPage.tsx   # Product collection page
-│   │   ├── ProductDetail.tsx    # Product detail page
-│   │   ├── Cart.tsx             # Shopping cart page
-│   │   ├── Checkout.tsx         # Checkout page
-│   │   ├── AdminDashboard.tsx   # Admin dashboard
-│   │   ├── UserLogin.tsx        # User login page
-│   │   ├── UserRegister.tsx     # User registration page
-│   │   ├── AdminLogin.tsx       # Admin login page
-│   │   └── AdminRegister.tsx    # Admin registration page
-│   ├── contexts/                # React contexts
-│   │   ├── AuthContext.tsx      # Authentication context
-│   │   └── CartContext.tsx      # Shopping cart context
-│   ├── services/                # API services
-│   │   └── api.ts               # API client
-│   ├── utils/                   # Utility functions
-│   │   └── formatPrice.ts       # Price formatting utility
-│   ├── hooks/                   # Custom React hooks
-│   │   └── use-toast.ts         # Toast notification hook
-│   ├── __tests__/               # Test files
-│   └── setupTests.ts            # Test setup configuration
-├── backend/                     # Backend source code
-│   ├── api/                     # API endpoints
-│   │   ├── auth.php             # Authentication API
-│   │   ├── products.php         # Products API
-│   │   ├── cart.php             # Shopping cart API
-│   │   ├── categories.php       # Categories API
-│   │   └── orders.php           # Orders API
-│   ├── config/                  # Configuration files
-│   │   ├── database.php         # Database configuration
-│   │   ├── cors.php             # CORS configuration
-│   │   └── session.php          # Session management
-│   ├── migrate.php              # Database migration script
-│   └── seed.php                 # Database seeding script
-├── public/                      # Static assets
-├── package.json                 # Frontend dependencies
-├── composer.json                # Backend dependencies
-├── tailwind.config.ts           # Tailwind CSS configuration
-├── vite.config.ts               # Vite configuration
-├── vitest.config.ts             # Vitest configuration
-└── README.md                    # This file
+├── frontend/                    # Frontend source code
+│   ├── src/                     # React source code
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── ui/             # Shadcn UI components
+│   │   │   ├── Navbar.tsx      # Navigation component
+│   │   │   ├── ProductCard.tsx # Product display component
+│   │   │   └── Footer.tsx      # Footer component
+│   │   ├── pages/              # Page components
+│   │   │   ├── Index.tsx       # Home page
+│   │   │   ├── CollectionPage.tsx # Product collection page
+│   │   │   ├── ProductDetail.tsx # Product detail page
+│   │   │   ├── Cart.tsx        # Shopping cart page
+│   │   │   ├── Checkout.tsx    # Checkout page
+│   │   │   ├── AdminDashboard.tsx # Admin dashboard
+│   │   │   ├── UserLogin.tsx   # User login page
+│   │   │   ├── UserRegister.tsx # User registration page
+│   │   │   ├── AdminLogin.tsx  # Admin login page
+│   │   │   └── AdminRegister.tsx # Admin registration page
+│   │   ├── contexts/           # React contexts
+│   │   │   ├── AuthContext.tsx # Authentication context
+│   │   │   └── CartContext.tsx # Shopping cart context
+│   │   ├── services/           # API services
+│   │   │   └── api.ts          # API client
+│   │   ├── utils/              # Utility functions
+│   │   │   └── formatPrice.ts  # Price formatting utility
+│   │   └── hooks/              # Custom React hooks
+│   │       └── use-toast.ts    # Toast notification hook
+│   ├── public/                 # Static assets
+│   ├── package.json            # Frontend dependencies
+│   ├── tailwind.config.ts      # Tailwind CSS configuration
+│   ├── vite.config.ts          # Vite configuration
+│   └── tsconfig.json           # TypeScript configuration
+├── backend/                    # Backend source code
+│   ├── api/                    # API endpoints
+│   │   ├── auth.php            # Authentication API
+│   │   ├── products.php        # Products API
+│   │   ├── cart.php            # Shopping cart API
+│   │   ├── categories.php      # Categories API
+│   │   └── orders.php          # Orders API
+│   ├── config/                 # Configuration files
+│   │   ├── database.php        # Database configuration
+│   │   ├── cors.php            # CORS configuration
+│   │   └── session.php         # Session management
+│   ├── migrate.php             # Database migration script
+│   └── seed.php                # Database seeding script
+├── start-dev.bat               # Windows development script
+├── start-dev.sh                # Linux/Mac development script
+├── start-all.bat               # Windows production script
+├── start-all.sh                # Linux/Mac production script
+└── README.md                   # This file
 ```
 
 ## 🔧 Configuration

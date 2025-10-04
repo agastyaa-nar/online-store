@@ -11,7 +11,7 @@ echo "Waiting for backend to start..."
 sleep 3
 
 echo "Starting Frontend Server (React)..."
-cd .. && npm run dev &
+cd ../frontend && npm run dev &
 FRONTEND_PID=$!
 
 echo

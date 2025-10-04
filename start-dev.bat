@@ -13,7 +13,7 @@ start "PHP Backend" cmd /k "php -S localhost:80 -t ."
 cd ..
 
 echo 3. Starting React frontend...
-start "React Frontend" cmd /k "npm run dev"
+start "React Frontend" cmd /k "cd frontend && npm run dev"
 
 echo.
 echo Development environment started!

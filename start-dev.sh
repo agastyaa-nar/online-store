@@ -15,7 +15,7 @@ BACKEND_PID=$!
 cd ..
 
 echo "3. Starting React frontend..."
-npm run dev &
+cd frontend && npm run dev &
 FRONTEND_PID=$!
 
 echo
