@@ -1,0 +1,25 @@
+# Railway Environment Variables - COPY THESE EXACTLY
+
+## Set these in Railway Dashboard (Variables tab):
+
+APP_ENV=production
+APP_DEBUG=false
+ALLOWED_ORIGINS=https://narr-online-store.vercel.app
+JWT_SECRET=33911246f950fff5a94a3019037ed569
+SESSION_SECRET=0acfc38f3e38a01d5ddea8d16c7200a3
+
+## Database (Connect PostgreSQL service in Railway):
+# Railway will auto-generate DATABASE_URL
+
+## Frontend (Set in Vercel):
+VITE_API_BASE_URL=https://online-store-production-c330.up.railway.app
+
+## Important:
+- NO QUOTES around values
+- NO SPACES around =
+- Copy exactly as shown above
+
+## After setting:
+1. Restart Railway deployment
+2. Check logs for CORS debug messages
+3. Test API endpoints

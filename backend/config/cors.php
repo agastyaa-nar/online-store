@@ -20,23 +20,23 @@ function setCorsHeaders() {
         // Production: Use environment variable for allowed origins
         $allowed_origins = $_ENV['ALLOWED_ORIGINS'] ?? getenv('ALLOWED_ORIGINS') ?? '';
         
-        if ($allowed_origins) {
-            $allowed_origins_list = explode(',', $allowed_origins);
-            // Remove trailing slash for comparison
-            $origin_clean = rtrim($origin, '/');
-            $allowed_origins_clean = array_map(function($url) { return rtrim($url, '/'); }, $allowed_origins_list);
-            
-            if (in_array($origin_clean, $allowed_origins_clean)) {
-                header('Access-Control-Allow-Origin: ' . $origin);
-                error_log("CORS: Allowed origin: " . $origin);
-            } else {
-                header('Access-Control-Allow-Origin: ' . $allowed_origins_list[0]);
-                error_log("CORS: Using fallback origin: " . $allowed_origins_list[0]);
-            }
+        // If no environment variable set, use hardcoded production origins
+        if (!$allowed_origins) {
+            $allowed_origins = 'https://narr-online-store.vercel.app';
+        }
+        
+        $allowed_origins_list = explode(',', $allowed_origins);
+        // Remove trailing slash for comparison
+        $origin_clean = rtrim($origin, '/');
+        $allowed_origins_clean = array_map(function($url) { return rtrim($url, '/'); }, $allowed_origins_list);
+        
+        if (in_array($origin_clean, $allowed_origins_clean)) {
+            header('Access-Control-Allow-Origin: ' . $origin);
+            error_log("CORS: Allowed origin: " . $origin);
         } else {
-            // Fallback for production - allow all origins temporarily
-            header('Access-Control-Allow-Origin: *');
-            error_log("CORS: No allowed origins set, using *");
+            // Use the first allowed origin as fallback
+            header('Access-Control-Allow-Origin: ' . $allowed_origins_clean[0]);
+            error_log("CORS: Using fallback origin: " . $allowed_origins_clean[0] . " for request from: " . $origin);
         }
     } else {
         // Development: Allow localhost and common dev ports
