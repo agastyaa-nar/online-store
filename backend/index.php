@@ -66,6 +66,11 @@ if (empty($path_parts)) {
 // Route to appropriate endpoint
 $endpoint = $path_parts[0];
 
+// Handle file extensions (e.g., products.php, auth.php)
+if (strpos($endpoint, '.php') !== false) {
+    $endpoint = str_replace('.php', '', $endpoint);
+}
+
 try {
     switch ($endpoint) {
         case 'products':
@@ -90,7 +95,8 @@ try {
                 'message' => 'Endpoint not found',
                 'available_endpoints' => ['products', 'categories', 'cart', 'auth', 'orders'],
                 'requested_path' => $path,
-                'request_uri' => $request_uri
+                'requested_uri' => $request_uri,
+                'endpoint' => $endpoint
             ]);
             break;
     }

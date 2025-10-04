@@ -2,38 +2,7 @@
   "name": "online-store/backend",
   "description": "Online Store Backend API for Railway",
   "type": "project",
-  "version": "1.0.0",
   "require": {
-    "php": ">=8.1",
-    "ext-pdo": "*",
-    "ext-pdo_pgsql": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "ext-curl": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\": "src/"
-    },
-    "files": [
-      "config/env.php",
-      "config/cors.php",
-      "config/database.php",
-      "config/session.php"
-    ]
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "php -r \"echo 'Dependencies installed successfully\\n';\""
-    ],
-    "start": "php -S 0.0.0.0:$PORT",
-    "setup": "php setup-railway.php"
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "sort-packages": true,
-    "allow-plugins": {}
-  },
-  "minimum-stability": "stable",
-  "prefer-stable": true
+    "php": ">=8.0"
+  }
 }

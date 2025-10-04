@@ -8,17 +8,17 @@ function setCorsHeaders() {
     // Get the origin from the request
     $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
     
+    // Debug logging
+    error_log("CORS Debug - Origin: " . $origin);
+    error_log("CORS Debug - APP_ENV: " . ($_ENV['APP_ENV'] ?? 'not set'));
+    error_log("CORS Debug - ALLOWED_ORIGINS: " . ($_ENV['ALLOWED_ORIGINS'] ?? 'not set'));
+    
     // Check for production environment
     $is_production = ($_ENV['APP_ENV'] ?? 'development') === 'production';
     
     if ($is_production) {
         // Production: Use environment variable for allowed origins
         $allowed_origins = $_ENV['ALLOWED_ORIGINS'] ?? getenv('ALLOWED_ORIGINS') ?? '';
-        
-        // Also check for CORS_ORIGIN (legacy support)
-        if (!$allowed_origins) {
-            $allowed_origins = $_ENV['CORS_ORIGIN'] ?? getenv('CORS_ORIGIN') ?? '';
-        }
         
         if ($allowed_origins) {
             $allowed_origins_list = explode(',', $allowed_origins);
@@ -28,12 +28,15 @@ function setCorsHeaders() {
             
             if (in_array($origin_clean, $allowed_origins_clean)) {
                 header('Access-Control-Allow-Origin: ' . $origin);
+                error_log("CORS: Allowed origin: " . $origin);
             } else {
                 header('Access-Control-Allow-Origin: ' . $allowed_origins_list[0]);
+                error_log("CORS: Using fallback origin: " . $allowed_origins_list[0]);
             }
         } else {
-            // Fallback for production
+            // Fallback for production - allow all origins temporarily
             header('Access-Control-Allow-Origin: *');
+            error_log("CORS: No allowed origins set, using *");
         }
     } else {
         // Development: Allow localhost and common dev ports
@@ -71,6 +74,8 @@ function setCorsHeaders() {
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Max-Age: 86400'); // Cache preflight for 24 hours
+    
+    error_log("CORS headers set successfully");
 }
 
 // Error handling function
