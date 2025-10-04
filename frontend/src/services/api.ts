@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// Get API base URL from environment or use fallback
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://personal-web1.lovestoblog.com';
 
 export interface Product {
   id: string;
@@ -21,31 +22,31 @@ export interface Category {
 export const api = {
   // Products
   async getProducts(): Promise<Product[]> {
-    const response = await fetch(`${API_BASE_URL}/products.php`);
+    const response = await fetch(`${API_BASE_URL}/products`);
     const data = await response.json();
     return data.success ? data.products : [];
   },
 
   async getProduct(id: string): Promise<Product | null> {
-    const response = await fetch(`${API_BASE_URL}/products.php?id=${id}`);
+    const response = await fetch(`${API_BASE_URL}/products?id=${id}`);
     const data = await response.json();
     return data.success ? data.product : null;
   },
 
   async searchProducts(query: string): Promise<Product[]> {
-    const response = await fetch(`${API_BASE_URL}/products.php?search=${encodeURIComponent(query)}`);
+    const response = await fetch(`${API_BASE_URL}/products?search=${encodeURIComponent(query)}`);
     const data = await response.json();
     return data.success ? data.products : [];
   },
 
   async getProductsByCategory(categoryId: string): Promise<Product[]> {
-    const response = await fetch(`${API_BASE_URL}/products.php?category=${categoryId}`);
+    const response = await fetch(`${API_BASE_URL}/products?category=${categoryId}`);
     const data = await response.json();
     return data.success ? data.products : [];
   },
 
   async createProduct(productData: any) {
-    const response = await fetch(`${API_BASE_URL}/products.php`, {
+    const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ export const api = {
   },
 
   async updateProduct(productData: any) {
-    const response = await fetch(`${API_BASE_URL}/products.php`, {
+    const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ export const api = {
   },
 
   async deleteProduct(productId: string) {
-    const response = await fetch(`${API_BASE_URL}/products.php`, {
+    const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -82,20 +83,20 @@ export const api = {
 
   // Categories
   async getCategories(): Promise<Category[]> {
-    const response = await fetch(`${API_BASE_URL}/categories.php`);
+    const response = await fetch(`${API_BASE_URL}/categories`);
     const data = await response.json();
     return data.success ? data.categories : [];
   },
 
   // Cart
   async getCartItems(sessionId: string) {
-    const response = await fetch(`${API_BASE_URL}/cart.php?session_id=${sessionId}`);
+    const response = await fetch(`${API_BASE_URL}/cart?session_id=${sessionId}`);
     const data = await response.json();
     return data.success ? data : { items: [], total: 0 };
   },
 
   async addToCart(sessionId: string, productId: string, quantity: number = 1) {
-    const response = await fetch(`${API_BASE_URL}/cart.php`, {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -110,7 +111,7 @@ export const api = {
   },
 
   async updateCartItem(sessionId: string, productId: string, quantity: number) {
-    const response = await fetch(`${API_BASE_URL}/cart.php`, {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -125,7 +126,7 @@ export const api = {
   },
 
   async removeFromCart(sessionId: string, productId: string) {
-    const response = await fetch(`${API_BASE_URL}/cart.php`, {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ export const api = {
   },
 
   async clearCart(sessionId: string) {
-    const response = await fetch(`${API_BASE_URL}/cart.php`, {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +155,7 @@ export const api = {
 
   // Orders
   async createOrder(sessionId: string, customerData: any, cartItems: any[]) {
-    const response = await fetch(`${API_BASE_URL}/orders.php`, {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ export const api = {
 
   // Auth
   async login(username: string, password: string) {
-    const response = await fetch(`${API_BASE_URL}/auth.php`, {
+    const response = await fetch(`${API_BASE_URL}/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -186,7 +187,7 @@ export const api = {
   },
 
   async logout() {
-    const response = await fetch(`${API_BASE_URL}/auth.php`, {
+    const response = await fetch(`${API_BASE_URL}/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -200,21 +201,21 @@ export const api = {
   },
 
   async getCurrentUser() {
-    const response = await fetch(`${API_BASE_URL}/auth.php?action=me`, {
+    const response = await fetch(`${API_BASE_URL}/auth?action=me`, {
       credentials: 'include'
     });
     return response.json();
   },
 
   async getAllUsers() {
-    const response = await fetch(`${API_BASE_URL}/auth.php?action=users`, {
+    const response = await fetch(`${API_BASE_URL}/auth?action=users`, {
       credentials: 'include'
     });
     return response.json();
   },
 
   async createUser(userData: any) {
-    const response = await fetch(`${API_BASE_URL}/auth.php`, {
+    const response = await fetch(`${API_BASE_URL}/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -229,7 +230,7 @@ export const api = {
   },
 
   async deleteUser(id: string) {
-    const response = await fetch(`${API_BASE_URL}/auth.php`, {
+    const response = await fetch(`${API_BASE_URL}/auth`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
