@@ -25,13 +25,13 @@ class Database {
             $user = $url_parts['user'];
             $pass = $url_parts['pass'];
         } else {
-            // Fallback to individual environment variables
-            $driver = $_ENV['DB_CONNECTION'] ?? 'pgsql';
-            $host = $_ENV['DB_HOST'] ?? 'localhost';
-            $port = $_ENV['DB_PORT'] ?? '5432';
-            $dbname = $_ENV['DB_DATABASE'] ?? 'online_store';
-            $user = $_ENV['DB_USERNAME'] ?? 'postgres';
-            $pass = $_ENV['DB_PASSWORD'] ?? '';
+            // Fallback to individual environment variables (Railway format)
+            $driver = $_ENV['DB_CONNECTION'] ?? getenv('DB_CONNECTION') ?? 'pgsql';
+            $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?? 'localhost';
+            $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?? '5432';
+            $dbname = $_ENV['DB_DATABASE'] ?? getenv('DB_DATABASE') ?? 'online_store';
+            $user = $_ENV['DB_USERNAME'] ?? getenv('DB_USERNAME') ?? 'postgres';
+            $pass = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD') ?? '';
         }
 
         try {

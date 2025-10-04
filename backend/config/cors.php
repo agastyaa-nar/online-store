@@ -13,11 +13,20 @@ function setCorsHeaders() {
     
     if ($is_production) {
         // Production: Use environment variable for allowed origins
-        $allowed_origins = $_ENV['ALLOWED_ORIGINS'] ?? '';
+        $allowed_origins = $_ENV['ALLOWED_ORIGINS'] ?? getenv('ALLOWED_ORIGINS') ?? '';
+        
+        // Also check for CORS_ORIGIN (legacy support)
+        if (!$allowed_origins) {
+            $allowed_origins = $_ENV['CORS_ORIGIN'] ?? getenv('CORS_ORIGIN') ?? '';
+        }
         
         if ($allowed_origins) {
             $allowed_origins_list = explode(',', $allowed_origins);
-            if (in_array($origin, $allowed_origins_list)) {
+            // Remove trailing slash for comparison
+            $origin_clean = rtrim($origin, '/');
+            $allowed_origins_clean = array_map(function($url) { return rtrim($url, '/'); }, $allowed_origins_list);
+            
+            if (in_array($origin_clean, $allowed_origins_clean)) {
                 header('Access-Control-Allow-Origin: ' . $origin);
             } else {
                 header('Access-Control-Allow-Origin: ' . $allowed_origins_list[0]);
