@@ -12,12 +12,27 @@ class Database {
             loadEnv(__DIR__ . '/../.env');
         }
 
-        $driver = $_ENV['DB_CONNECTION'] ?? 'pgsql';
-        $host = $_ENV['DB_HOST'] ?? 'localhost';
-        $port = $_ENV['DB_PORT'] ?? '5432';
-        $dbname = $_ENV['DB_DATABASE'] ?? 'online_store';
-        $user = $_ENV['DB_USERNAME'] ?? 'postgres';
-        $pass = $_ENV['DB_PASSWORD'] ?? '';
+        // Check for Railway DATABASE_URL first
+        $database_url = $_ENV['DATABASE_URL'] ?? getenv('DATABASE_URL');
+        
+        if ($database_url) {
+            // Parse Railway DATABASE_URL format: postgresql://user:password@host:port/database
+            $url_parts = parse_url($database_url);
+            $driver = 'pgsql';
+            $host = $url_parts['host'];
+            $port = $url_parts['port'] ?? '5432';
+            $dbname = ltrim($url_parts['path'], '/');
+            $user = $url_parts['user'];
+            $pass = $url_parts['pass'];
+        } else {
+            // Fallback to individual environment variables
+            $driver = $_ENV['DB_CONNECTION'] ?? 'pgsql';
+            $host = $_ENV['DB_HOST'] ?? 'localhost';
+            $port = $_ENV['DB_PORT'] ?? '5432';
+            $dbname = $_ENV['DB_DATABASE'] ?? 'online_store';
+            $user = $_ENV['DB_USERNAME'] ?? 'postgres';
+            $pass = $_ENV['DB_PASSWORD'] ?? '';
+        }
 
         try {
             $dsn = "$driver:host=$host;port=$port;dbname=$dbname";
@@ -25,9 +40,13 @@ class Database {
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         } catch(PDOException $e) {
+            // Log error for debugging but don't expose sensitive info
+            error_log("Database connection failed: " . $e->getMessage());
+            
             echo json_encode([
                 "success" => false,
-                "message" => "Database connection failed: " . $e->getMessage()
+                "message" => "Database connection failed. Please check your database configuration.",
+                "error_code" => "DB_CONNECTION_ERROR"
             ]);
             exit;
         }
