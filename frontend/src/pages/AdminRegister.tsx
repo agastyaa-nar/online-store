@@ -109,7 +109,7 @@ const AdminRegister = () => {
 
         <Card className="p-8 shadow-xl border-0 bg-background/80 backdrop-blur-sm">
           <div className="text-center mb-8">
-            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
               <UserPlus className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold mb-2">Create Admin Account</h1>

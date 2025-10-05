@@ -29,7 +29,7 @@ const AdminLogin = () => {
     
     try {
       // Use API directly to get user data
-      const response = await fetch('http://localhost:3000/api/auth.php', {
+      const response = await fetch('http://localhost:3000/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

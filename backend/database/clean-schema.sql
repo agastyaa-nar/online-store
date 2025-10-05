@@ -1,3 +1,12 @@
+-- Clean schema for PostgreSQL - drops all tables and recreates them
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS cart_items;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+DROP FUNCTION IF EXISTS update_updated_at_column;
+
 -- Online Store Database Schema for PostgreSQL
 CREATE TABLE users (
     id VARCHAR(36) PRIMARY KEY DEFAULT gen_random_uuid(),

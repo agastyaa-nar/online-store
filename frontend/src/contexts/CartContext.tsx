@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
+// API base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 interface CartItem {
   id: string;
   name: string;
@@ -53,7 +56,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const sessionId = getSessionId();
     
     try {
-      const response = await fetch('http://localhost:3000/api/cart.php', {
+      const response = await fetch(`${API_BASE_URL}/cart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +98,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const sessionId = getSessionId();
     
     try {
-      const response = await fetch('http://localhost:3000/api/cart.php', {
+      const response = await fetch(`${API_BASE_URL}/cart`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +121,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const sessionId = getSessionId();
     
     try {
-      const response = await fetch('http://localhost:3000/api/cart.php', {
+      const response = await fetch(`${API_BASE_URL}/cart`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +151,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const sessionId = getSessionId();
     
     try {
-      const response = await fetch('http://localhost:3000/api/cart.php', {
+      const response = await fetch(`${API_BASE_URL}/cart`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -179,7 +182,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const sessionId = getSessionId();
       
       try {
-        const response = await fetch(`http://localhost:3000/api/cart.php?session_id=${sessionId}`);
+        const response = await fetch(`${API_BASE_URL}/cart?session_id=${sessionId}`);
         if (response.ok) {
           const data = await response.json();
           if (data.success) {

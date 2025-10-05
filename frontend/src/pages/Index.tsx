@@ -4,13 +4,13 @@ import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Star, Truck, Shield, RotateCcw, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { api, Product } from "@/services/api";
 import { formatPrice } from "@/utils/formatPrice";
+
 
 const Index = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -93,6 +93,7 @@ const Index = () => {
       });
     }
   };
+
 
   if (loading) {
     return (
@@ -304,8 +305,8 @@ const Index = () => {
           {products.length > 20 && (
             <div className="text-center mt-12">
               <Button asChild size="lg">
-                <Link to="/category/electronics">
-                  Load More Products
+                <Link to="/collection">
+                  View All Products
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Link>
               </Button>

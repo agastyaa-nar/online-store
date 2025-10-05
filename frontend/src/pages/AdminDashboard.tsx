@@ -545,7 +545,7 @@ const AdminDashboard = () => {
                           <TableRow key={user.id}>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg">
                                   <Users className="h-5 w-5 text-white" />
                                 </div>
                                 <div>
@@ -691,7 +691,8 @@ const ProductForm = ({ product, categories, onSave, onCancel }: {
           id="description"
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          className="w-full min-h-[100px] px-3 py-2 border border-input rounded-md resize-none"
+          className="w-full min-h-[100px] px-3 py-2 border border-input bg-background text-foreground rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+          placeholder="Enter product description..."
           required
         />
       </div>

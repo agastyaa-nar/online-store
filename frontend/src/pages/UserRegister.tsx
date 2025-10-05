@@ -45,12 +45,11 @@ const UserRegister = () => {
     setIsLoading(true);
     
     try {
-      const result = await api.createUser({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        role: "user" // Always create as regular user
-      });
+      const result = await api.register(
+        formData.username,
+        formData.email,
+        formData.password
+      );
       
       if (result.success) {
         toast({
@@ -93,7 +92,7 @@ const UserRegister = () => {
 
         <Card className="p-8 shadow-xl border-0 bg-background/80 backdrop-blur-sm">
           <div className="text-center mb-8">
-            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-green-600 to-blue-600 flex items-center justify-center">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-lg">
               <UserPlus className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold mb-2">Create Account</h1>

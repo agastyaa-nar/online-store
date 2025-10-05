@@ -1,5 +1,5 @@
 // Get API base URL from environment or use fallback
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://personal-web1.lovestoblog.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 export interface Product {
   id: string;
@@ -46,11 +46,18 @@ export const api = {
   },
 
   async createProduct(productData: any) {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       credentials: 'include',
       body: JSON.stringify(productData)
     });
@@ -58,11 +65,18 @@ export const api = {
   },
 
   async updateProduct(productData: any) {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       credentials: 'include',
       body: JSON.stringify(productData)
     });
@@ -70,11 +84,18 @@ export const api = {
   },
 
   async deleteProduct(productId: string) {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       credentials: 'include',
       body: JSON.stringify({ id: productId })
     });
@@ -186,6 +207,22 @@ export const api = {
     return response.json();
   },
 
+  async register(username: string, email: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/auth?action=register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      })
+    });
+    return response.json();
+  },
+
   async logout() {
     const response = await fetch(`${API_BASE_URL}/auth`, {
       method: 'POST',
@@ -201,40 +238,71 @@ export const api = {
   },
 
   async getCurrentUser() {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${API_BASE_URL}/auth?action=me`, {
+      headers,
       credentials: 'include'
     });
     return response.json();
   },
 
   async getAllUsers() {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${API_BASE_URL}/auth?action=users`, {
+      headers,
       credentials: 'include'
     });
     return response.json();
   },
 
   async createUser(userData: any) {
-    const response = await fetch(`${API_BASE_URL}/auth`, {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    const response = await fetch(`${API_BASE_URL}/auth?action=create_user`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       credentials: 'include',
-      body: JSON.stringify({
-        action: 'create_user',
-        ...userData
-      })
+      body: JSON.stringify(userData)
     });
     return response.json();
   },
 
   async deleteUser(id: string) {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${API_BASE_URL}/auth`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       credentials: 'include',
       body: JSON.stringify({
         id

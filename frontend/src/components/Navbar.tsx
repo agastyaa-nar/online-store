@@ -1,5 +1,20 @@
 import { useState } from "react";
-import { ShoppingCart, Search, Menu, X, User, LogOut, Home, Package, Zap, Sparkles, Star } from "lucide-react";
+import {
+  ShoppingCart,
+  Search,
+  Menu,
+  X,
+  User,
+  LogOut,
+  Home,
+  Package,
+  Zap,
+  Sparkles,
+  Shirt,
+  Dumbbell,
+  BookOpen,
+  House,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,11 +30,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const categories = [
-  { name: "Electronics", slug: "electronics", icon: "⚡" },
-  { name: "Clothing", slug: "clothing", icon: "👗" },
-  { name: "Home & Garden", slug: "home-garden", icon: "🏡" },
-  { name: "Sports", slug: "sports", icon: "🏃" },
-  { name: "Books", slug: "books", icon: "📖" },
+  { name: "Electronics", slug: "electronics", icon: Zap },
+  { name: "Clothing", slug: "clothing", icon: Shirt },
+  { name: "Home & Garden", slug: "home-garden", icon: House },
+  { name: "Sports", slug: "sports", icon: Dumbbell },
+  { name: "Books", slug: "books", icon: BookOpen },
 ];
 
 interface NavbarProps {
@@ -50,15 +65,20 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity group">
+        <Link
+          to="/"
+          className="flex items-center space-x-2 hover:opacity-80 transition-opacity group"
+        >
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center neon-glow group-hover:animate-float">
             <Zap className="h-6 w-6 text-white" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-bold text-primary neon-text">
-              NeonStore
+              Arch Store
             </span>
-            <span className="text-xs text-muted-foreground -mt-1">Powered by Tech</span>
+            <span className="text-xs text-muted-foreground -mt-1">
+              Made by Narr
+            </span>
           </div>
         </Link>
 
@@ -66,7 +86,10 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
         <div className="hidden md:flex items-center gap-6">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" className="gap-2 hover:bg-secondary/50 neon-border hover:neon-glow transition-all duration-300">
+              <Button
+                variant="ghost"
+                className="gap-2 hover:bg-secondary/50 neon-border hover:neon-glow transition-all duration-300"
+              >
                 <Sparkles className="h-5 w-5 text-primary neon-text" />
                 <span className="hidden lg:inline">Filter by</span>
               </Button>
@@ -81,8 +104,10 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                       to={`/collection?category=${category.slug}`}
                       className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-colors hover:bg-secondary/50 group"
                     >
-                      <span className="text-lg">{category.icon}</span>
-                      <span className="group-hover:text-primary transition-colors">{category.name}</span>
+                      <category.icon className="h-5 w-5 text-primary" />
+                      <span className="group-hover:text-primary transition-colors">
+                        {category.name}
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -103,7 +128,11 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                   className="w-64 pl-10 pr-4"
                 />
               </div>
-              <Button type="submit" size="sm" className="ml-2 gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300">
+              <Button
+                type="submit"
+                size="sm"
+                className="ml-2 gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300"
+              >
                 <Search className="h-4 w-4 mr-2" />
                 Search
               </Button>
@@ -123,7 +152,7 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
             <Search className="h-5 w-5" />
           </Button>
 
-          {/* Mobile Filter by Button */}
+          {/* Mobile Filter Button */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="sm" className="md:hidden">
@@ -141,8 +170,10 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                       className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-colors hover:bg-secondary/50 group"
                       onClick={() => setSearchOpen(false)}
                     >
-                      <span className="text-lg">{category.icon}</span>
-                      <span className="group-hover:text-primary transition-colors">{category.name}</span>
+                      <category.icon className="h-5 w-5 text-primary" />
+                      <span className="group-hover:text-primary transition-colors">
+                        {category.name}
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -154,16 +185,21 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full neon-border hover:neon-glow-purple transition-all duration-300">
-                  <div className="h-8 w-8 rounded-full gradient-neon-purple flex items-center justify-center neon-glow-purple">
-                    <User className="h-4 w-4 text-white" />
+                <Button
+                  variant="ghost"
+                  className="relative h-10 w-10 p-0 rounded-full neon-border hover:neon-glow-blue transition-all duration-300"
+                >
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg hover:shadow-blue-500/50 transition-all duration-300">
+                    <User className="h-5 w-5 text-white" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end">
                 <div className="px-2 py-1.5">
                   <p className="text-sm font-medium">{user?.username}</p>
-                  <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
+                  <p className="text-xs text-muted-foreground capitalize">
+                    {user?.role}
+                  </p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -172,16 +208,22 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                     View Store
                   </Link>
                 </DropdownMenuItem>
-                {(user?.role === 'admin' || user?.role === 'superadmin') && (
+                {(user?.role === "admin" || user?.role === "superadmin") && (
                   <DropdownMenuItem asChild>
-                    <Link to="/admin/dashboard" className="flex items-center gap-2">
+                    <Link
+                      to="/admin/dashboard"
+                      className="flex items-center gap-2"
+                    >
                       <Package className="h-4 w-4" />
                       Admin Dashboard
                     </Link>
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-red-600"
+                >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </DropdownMenuItem>
@@ -189,17 +231,31 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button asChild variant="ghost" size="sm" className="neon-border hover:neon-glow transition-all duration-300">
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="neon-border hover:neon-glow transition-all duration-300"
+              >
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild size="sm" className="gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300 text-white">
+              <Button
+                asChild
+                size="sm"
+                className="gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300 text-white"
+              >
                 <Link to="/register">Register</Link>
               </Button>
             </div>
           )}
 
           {/* Cart */}
-          <Button asChild variant="ghost" size="sm" className="relative neon-border hover:neon-glow-blue transition-all duration-300">
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className="relative neon-border hover:neon-glow-blue transition-all duration-300"
+          >
             <Link to="/cart">
               <ShoppingCart className="h-5 w-5 text-primary neon-text" />
               {cartItemsCount > 0 && (
@@ -215,7 +271,7 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
         </div>
       </div>
 
-      {/* Mobile Search Bar */}
+      {/* Mobile Search */}
       {searchOpen && (
         <div className="border-t border-border bg-background/95 backdrop-blur md:hidden">
           <div className="container mx-auto px-4 py-3">

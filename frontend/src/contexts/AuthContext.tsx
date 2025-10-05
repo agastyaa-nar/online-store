@@ -42,8 +42,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const response = await api.login(username, password);
       if (response.success) {
         setUser(response.user);
-        // Store user data in localStorage as backup
+        // Store user data and token in localStorage
         localStorage.setItem('user', JSON.stringify(response.user));
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        }
         return true;
       }
       return false;
@@ -62,6 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Always clear user data regardless of API response
       setUser(null);
       localStorage.removeItem('user');
+      localStorage.removeItem('token');
       // Clear any other user-related data
       localStorage.removeItem('cart');
       localStorage.removeItem('session_id');
@@ -70,19 +74,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const checkAuth = async (): Promise<void> => {
     try {
-      // Always check with API first for security
-      const response = await api.getCurrentUser();
-      if (response.success) {
-        setUser(response.user);
-        localStorage.setItem('user', JSON.stringify(response.user));
+      // Check if we have a token in localStorage first
+      const token = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('user');
+      
+      if (token && storedUser) {
+        // Try to validate token with backend
+        const response = await api.getCurrentUser();
+        if (response.success) {
+          setUser(response.user);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          if (response.token) {
+            localStorage.setItem('token', response.token);
+          }
+        } else {
+          // Token is invalid, clear everything
+          setUser(null);
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+        }
       } else {
+        // No token, user is not authenticated
         setUser(null);
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
       }
     } catch (error) {
       console.error('Auth check error:', error);
       setUser(null);
       localStorage.removeItem('user');
+      localStorage.removeItem('token');
     } finally {
       setIsLoading(false);
     }

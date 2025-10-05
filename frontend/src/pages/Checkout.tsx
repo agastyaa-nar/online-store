@@ -26,6 +26,7 @@ import { useCart } from "@/contexts/CartContext";
 import { api } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/utils/formatPrice";
+import { getSessionCookie } from "@/utils/session";
 
 const steps = [
   { id: "information", title: "Information", icon: User },
@@ -74,28 +75,29 @@ const Checkout = () => {
   const handleCompleteOrder = async () => {
     setIsProcessing(true);
     try {
-      const orderData = {
-        items: cartItems.map(item => ({
-          product_id: item.id,
-          quantity: item.quantity,
-          price: item.price
-        })),
-        customer_info: {
-          email: formData.email,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          zip_code: formData.zipCode,
-          country: formData.country,
-        },
+      const sessionId = getSessionCookie('session_id') || 'anonymous';
+      
+      const customerData = {
+        email: formData.email,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        zip_code: formData.zipCode,
+        country: formData.country,
         shipping_method: formData.shippingMethod,
         payment_method: formData.paymentMethod,
         total_amount: total,
       };
 
-      const result = await api.createOrder(orderData);
+      const orderItems = cartItems.map(item => ({
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.price
+      }));
+
+      const result = await api.createOrder(sessionId, customerData, orderItems);
       
       if (result.success) {
         clearCart();
@@ -487,20 +489,12 @@ const Checkout = () => {
                 {currentStep === steps.length - 1 ? (
                   <Button
                     onClick={handleCompleteOrder}
-                    disabled={!isStepValid(currentStep) || isProcessing}
-                    className="min-w-[140px]"
+                    disabled={true}
+                    className="min-w-[140px] opacity-50 cursor-not-allowed"
+                    title="Payment processing is disabled for demo purposes"
                   >
-                    {isProcessing ? (
-                      <div className="flex items-center gap-2">
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
-                        Processing...
-                      </div>
-                    ) : (
-                      <>
-                        Complete Order
-                        <ChevronRight className="h-4 w-4 ml-2" />
-                      </>
-                    )}
+                    Complete Order (Disabled)
+                    <ChevronRight className="h-4 w-4 ml-2" />
                   </Button>
                 ) : (
                   <Button

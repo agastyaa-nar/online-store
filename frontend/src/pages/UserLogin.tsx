@@ -29,7 +29,7 @@ const UserLogin = () => {
     
     try {
       // Use API directly to get user data
-      const response = await fetch('http://localhost:3000/api/auth.php', {
+      const response = await fetch('http://localhost:3000/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const UserLogin = () => {
 
         <Card className="p-8 shadow-xl border-0 bg-background/80 backdrop-blur-sm">
           <div className="text-center mb-8">
-            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center shadow-lg">
               <User className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
