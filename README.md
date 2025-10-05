@@ -1,356 +1,387 @@
-# 🛍️ NeonStore - Modern E-commerce Platform
+# 🛍️ Online Store - Full Stack E-commerce Application
 
-A full-stack e-commerce application built with React, TypeScript, Tailwind CSS, and PHP with PostgreSQL. Features a modern neon-themed UI with complete admin dashboard, user management, and shopping cart functionality.
+A complete full-stack e-commerce application built with **PHP Backend** and **React Frontend**, featuring modern UI/UX design with neon theme and comprehensive shopping functionality.
 
-## ✨ Features
+## 🌟 Features
 
-### 🎨 Frontend Features
-- **Modern Neon Theme**: Dark theme with neon green accents and glow effects
-- **Responsive Design**: Mobile-first design that works on all devices
-- **Product Catalog**: Browse products with filtering, sorting, and search
-- **Shopping Cart**: Add/remove items with real-time updates
-- **User Authentication**: Separate login systems for users and admins
-- **Admin Dashboard**: Complete product and user management
-- **Collection Page**: Advanced filtering with category, price range, and search
-- **Load More**: Pagination for better performance
+### 🎨 Frontend (React + TypeScript)
+- **Modern UI/UX** with neon theme and gradient effects
+- **Responsive Design** for all devices
+- **Shopping Cart** with session management
+- **Product Catalog** with advanced filtering
+- **User Authentication** (Login/Register)
+- **Admin Dashboard** for product management
+- **Order Management** system
+- **Price Range Filtering** with smart category counts
+- **Search & Sort** functionality
 
-### 🔧 Backend Features
-- **RESTful API**: Clean API endpoints for all operations
-- **PostgreSQL Database**: Robust data storage with proper relationships
-- **Session Management**: Secure authentication and authorization
-- **Role-Based Access**: User, Admin, and Superadmin roles
-- **CORS Support**: Flexible CORS for development and production
-- **Data Validation**: Server-side validation for all inputs
+### 🔧 Backend (PHP + PostgreSQL)
+- **RESTful API** with clean architecture
+- **MVC Pattern** implementation
+- **JWT Authentication** system
+- **PostgreSQL Database** integration
+- **CORS Support** for cross-origin requests
+- **Role-based Access Control** (User, Admin, Superadmin)
+- **Product CRUD** operations
+- **Cart Management** with session support
+- **Order Processing** system
 
-### 🛡️ Security Features
-- **Password Hashing**: Secure password storage
-- **Session Management**: Secure session handling
-- **Role-Based Access Control**: Different permissions for different roles
-- **Input Validation**: Both client and server-side validation
-- **SQL Injection Protection**: Prepared statements for all queries
+## 🚀 Tech Stack
 
-## 🚀 Quick Start
+### Frontend
+- **React 18** with TypeScript
+- **Vite** for fast development
+- **Tailwind CSS** for styling
+- **shadcn/ui** component library
+- **React Router** for navigation
+- **Lucide React** for icons
+- **React Context** for state management
 
-### Prerequisites
-- Node.js 18+ 
-- PHP 8.0+
-- PostgreSQL 12+
-- Composer (for PHP dependencies)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd online-store
-   ```
-
-2. **Install Frontend Dependencies**
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. **Install Backend Dependencies**
-   ```bash
-   cd backend
-   composer install
-   ```
-
-4. **Setup Database**
-   ```sql
-   CREATE DATABASE neonstore;
-   \c neonstore;
-   ```
-
-5. **Run Database Migration**
-   ```bash
-   cd backend
-   php migrate.php
-   ```
-
-6. **Configure Environment**
-   - Update `backend/config/database.php` with your database credentials
-   - Update `frontend/src/services/api.ts` with your API base URL
-
-### Development
-
-1. **Start Backend Server**
-   ```bash
-   cd backend
-   php -S localhost:3000 -t .
-   ```
-
-2. **Start Frontend Development Server**
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-3. **Access the Application**
-   - Frontend: http://localhost:8080
-   - Backend API: http://localhost:3000
-
-## 🧪 Testing
-
-### Run Tests
-```bash
-# Run all tests
-npm run test
-
-# Run tests with UI
-npm run test:ui
-
-# Run tests once
-npm run test:run
-
-# Run tests with coverage
-npm run test:coverage
-```
-
-### Test Coverage
-The project includes comprehensive unit tests for:
-- React components
-- Utility functions
-- API services
-- Context providers
-- Page components
+### Backend
+- **PHP 8+** with PDO
+- **PostgreSQL** database
+- **JWT** for authentication
+- **CORS** middleware
+- **MVC Architecture**
+- **Environment Configuration**
 
 ## 📁 Project Structure
 
 ```
 online-store/
-├── frontend/                    # Frontend source code
-│   ├── src/                     # React source code
-│   │   ├── components/          # Reusable UI components
-│   │   │   ├── ui/             # Shadcn UI components
-│   │   │   ├── Navbar.tsx      # Navigation component
-│   │   │   ├── ProductCard.tsx # Product display component
-│   │   │   └── Footer.tsx      # Footer component
-│   │   ├── pages/              # Page components
-│   │   │   ├── Index.tsx       # Home page
-│   │   │   ├── CollectionPage.tsx # Product collection page
-│   │   │   ├── ProductDetail.tsx # Product detail page
-│   │   │   ├── Cart.tsx        # Shopping cart page
-│   │   │   ├── Checkout.tsx    # Checkout page
-│   │   │   ├── AdminDashboard.tsx # Admin dashboard
-│   │   │   ├── UserLogin.tsx   # User login page
-│   │   │   ├── UserRegister.tsx # User registration page
-│   │   │   ├── AdminLogin.tsx  # Admin login page
-│   │   │   └── AdminRegister.tsx # Admin registration page
-│   │   ├── contexts/           # React contexts
-│   │   │   ├── AuthContext.tsx # Authentication context
-│   │   │   └── CartContext.tsx # Shopping cart context
-│   │   ├── services/           # API services
-│   │   │   └── api.ts          # API client
-│   │   ├── utils/              # Utility functions
-│   │   │   └── formatPrice.ts  # Price formatting utility
-│   │   └── hooks/              # Custom React hooks
-│   │       └── use-toast.ts    # Toast notification hook
-│   ├── public/                 # Static assets
-│   ├── package.json            # Frontend dependencies
-│   ├── tailwind.config.ts      # Tailwind CSS configuration
-│   ├── vite.config.ts          # Vite configuration
-│   └── tsconfig.json           # TypeScript configuration
-├── backend/                    # Backend source code
-│   ├── api/                    # API endpoints
-│   │   ├── auth.php            # Authentication API
-│   │   ├── products.php        # Products API
-│   │   ├── cart.php            # Shopping cart API
-│   │   ├── categories.php      # Categories API
-│   │   └── orders.php          # Orders API
-│   ├── config/                 # Configuration files
-│   │   ├── database.php        # Database configuration
-│   │   ├── cors.php            # CORS configuration
-│   │   └── session.php         # Session management
-│   ├── migrate.php             # Database migration script
-│   └── seed.php                # Database seeding script
-├── start-dev.bat               # Windows development script
-├── start-dev.sh                # Linux/Mac development script
-├── start-all.bat               # Windows production script
-├── start-all.sh                # Linux/Mac production script
-└── README.md                   # This file
+├── frontend/                 # React Frontend
+│   ├── src/
+│   │   ├── components/      # Reusable components
+│   │   │   ├── ui/          # shadcn/ui components
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── ProductCard.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── pages/           # Page components
+│   │   │   ├── Index.tsx
+│   │   │   ├── CollectionPage.tsx
+│   │   │   ├── AdminDashboard.tsx
+│   │   │   ├── Cart.tsx
+│   │   │   └── Checkout.tsx
+│   │   ├── contexts/        # React contexts
+│   │   │   ├── AuthContext.tsx
+│   │   │   └── CartContext.tsx
+│   │   ├── services/        # API services
+│   │   │   └── api.ts
+│   │   └── utils/           # Utility functions
+│   └── package.json
+├── backend/                  # PHP Backend
+│   ├── src/
+│   │   ├── Controllers/     # API Controllers
+│   │   │   ├── AuthController.php
+│   │   │   ├── ProductController.php
+│   │   │   ├── CartController.php
+│   │   │   └── OrderController.php
+│   │   ├── Models/          # Database Models
+│   │   │   ├── User.php
+│   │   │   ├── Product.php
+│   │   │   ├── Cart.php
+│   │   │   └── Order.php
+│   │   ├── Routes/          # Route definitions
+│   │   └── Middleware/      # CORS middleware
+│   ├── database/
+│   │   ├── schema.sql       # Database schema
+│   │   └── clean-schema.sql
+│   ├── public/
+│   │   └── index.php        # Main entry point
+│   └── env                  # Environment config
+└── README.md
 ```
 
-## 🔧 Configuration
+## 🛠️ Installation & Setup
 
-### Frontend Configuration
-- **Vite**: Build tool and development server
-- **Tailwind CSS**: Utility-first CSS framework
-- **TypeScript**: Type-safe JavaScript
-- **React Router**: Client-side routing
-- **React Query**: Data fetching and caching
-- **Shadcn UI**: Component library
+### Prerequisites
+- **Node.js** 18+ and npm
+- **PHP** 8+ with PDO extension
+- **PostgreSQL** 12+
+- **Composer** (optional, not used in this project)
 
-### Backend Configuration
-- **PHP 8.0+**: Server-side language
-- **PostgreSQL**: Database
-- **PDO**: Database abstraction layer
-- **Session Management**: Custom session handling
-- **CORS**: Cross-origin resource sharing
+### 1. Clone Repository
+```bash
+git clone https://github.com/agastyaa-nar/online-store.git
+cd online-store
+```
+
+### 2. Backend Setup
+
+#### Database Setup
+```bash
+# Create PostgreSQL database
+createdb online_store
+
+# Run database schema
+psql -d online_store -f backend/database/schema.sql
+```
+
+#### Environment Configuration
+```bash
+# Copy environment template
+cp backend/env.example backend/env
+
+# Edit backend/env with your database credentials
+DB_HOST=localhost
+DB_NAME=online_store
+DB_USER=postgres
+DB_PASS=your_password
+DB_PORT=5432
+JWT_SECRET=your-secret-key-here
+CORS_ORIGIN=http://localhost:8080
+```
+
+#### Start Backend Server
+```bash
+cd backend
+php -S localhost:3000 -t public
+```
+
+### 3. Frontend Setup
+
+#### Install Dependencies
+```bash
+cd frontend
+npm install
+```
+
+#### Environment Configuration
+```bash
+# Create frontend/env file
+echo "VITE_API_BASE_URL=http://localhost:3000" > env
+```
+
+#### Start Frontend Server
+```bash
+npm run dev
+```
+
+## 🎯 API Endpoints
+
+### Authentication
+- `POST /auth?action=login` - User login
+- `POST /auth?action=register` - User registration
+- `POST /auth?action=create_user` - Create admin user (admin only)
+- `GET /auth?action=me` - Get current user
+- `GET /auth?action=users` - Get all users (admin only)
+- `DELETE /auth?action=delete_user` - Delete user (admin only)
+
+### Products
+- `GET /products` - Get all products
+- `GET /products?id={id}` - Get product by ID
+- `POST /products` - Create product (admin only)
+- `PUT /products` - Update product (admin only)
+- `DELETE /products` - Delete product (admin only)
+
+### Categories
+- `GET /categories` - Get all categories
+
+### Cart
+- `GET /cart?session_id={id}` - Get cart items
+- `POST /cart` - Add item to cart
+- `PUT /cart` - Update cart item
+- `DELETE /cart` - Remove cart item
+
+### Orders
+- `GET /orders` - Get user orders
+- `POST /orders` - Create order
+- `GET /orders?action=all` - Get all orders (admin only)
+
+## 👥 User Roles
+
+### 🔵 User (Regular Customer)
+- Browse products
+- Add to cart
+- Place orders
+- View order history
+- Update profile
+
+### 🟡 Admin
+- All user permissions
+- Manage products (CRUD)
+- View all orders
+- Create other admin users
+
+### 🔴 Superadmin
+- All admin permissions
+- Manage all users
+- System administration
+- Full access control
+
+## 🎨 UI Components
+
+### Design System
+- **Neon Theme** with gradient effects
+- **Responsive Grid** layouts
+- **Interactive Animations**
+- **Modern Typography**
+- **Consistent Spacing**
+
+### Key Components
+- **ProductCard** - Product display with add to cart
+- **Navbar** - Navigation with user menu
+- **AdminDashboard** - Product and user management
+- **Cart** - Shopping cart with quantity controls
+- **Checkout** - Order processing flow
+
+## 🔧 Development
+
+### Frontend Development
+```bash
+cd frontend
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+```
+
+### Backend Development
+```bash
+cd backend
+php -S localhost:3000 -t public    # Start PHP server
+php setup.php                       # Setup database
+```
+
+### Database Management
+```bash
+# Reset database
+psql -d online_store -f backend/database/clean-schema.sql
+psql -d online_store -f backend/database/schema.sql
+```
 
 ## 🚀 Deployment
 
-### Frontend Deployment (Vercel/Netlify)
+### Frontend (Vercel)
+1. Connect GitHub repository to Vercel
+2. Set build command: `npm run build`
+3. Set output directory: `dist`
+4. Add environment variable: `VITE_API_BASE_URL=your-backend-url`
 
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
+### Backend (Any PHP Hosting)
+1. Upload backend files to server
+2. Create PostgreSQL database
+3. Run database schema
+4. Configure environment variables
+5. Set up CORS for your frontend domain
 
-2. **Deploy to Vercel**
-   ```bash
-   npx vercel --prod
-   ```
+## 📊 Database Schema
 
-3. **Deploy to Netlify**
-   ```bash
-   npm run build
-   # Upload dist/ folder to Netlify
-   ```
+### Tables
+- **users** - User accounts and authentication
+- **categories** - Product categories
+- **products** - Product catalog
+- **cart_items** - Shopping cart items
+- **orders** - Order records
+- **order_items** - Order line items
 
-### Backend Deployment (VPS/Shared Hosting)
+### Sample Data
+- Default admin: `admin` / `password`
+- Default superadmin: `superadmin` / `password`
+- Sample products and categories included
 
-1. **Upload backend files**
-   ```bash
-   # Upload backend/ folder to your server
-   ```
+## 🎯 Features in Detail
 
-2. **Install PHP dependencies**
-   ```bash
-   composer install --no-dev --optimize-autoloader
-   ```
+### 🛒 Shopping Experience
+- **Product Browsing** with category filters
+- **Advanced Search** with real-time results
+- **Price Range Filtering** with smart category counts
+- **Sort Options** (name, price, date)
+- **Product Details** with image gallery
+- **Add to Cart** with quantity selection
 
-3. **Configure web server**
-   ```apache
-   # Apache .htaccess
-   RewriteEngine On
-   RewriteCond %{REQUEST_FILENAME} !-f
-   RewriteCond %{REQUEST_FILENAME} !-d
-   RewriteRule ^(.*)$ index.php [QSA,L]
-   ```
+### 🛍️ Cart & Checkout
+- **Session-based Cart** persistence
+- **Quantity Management** with +/- controls
+- **Price Calculation** with totals
+- **Checkout Process** with form validation
+- **Order Confirmation** with details
 
-4. **Setup database**
-   ```bash
-   # Run migration on production database
-   php migrate.php
-   ```
+### 👨‍💼 Admin Features
+- **Product Management** (CRUD operations)
+- **User Management** (view, create, delete)
+- **Order Management** (view all orders)
+- **Dashboard Analytics** with statistics
+- **Role-based Access** control
 
-5. **Configure environment**
-   - Update database credentials
-   - Set production API URL
-   - Configure CORS for production domain
+## 🔒 Security Features
 
-### Docker Deployment
+- **JWT Authentication** with secure tokens
+- **Password Hashing** with PHP password_hash()
+- **CORS Protection** with configurable origins
+- **Input Validation** on all endpoints
+- **SQL Injection Prevention** with PDO prepared statements
+- **Role-based Authorization** for admin functions
 
-1. **Create Dockerfile for frontend**
-   ```dockerfile
-   FROM node:18-alpine
-   WORKDIR /app
-   COPY package*.json ./
-   RUN npm ci --only=production
-   COPY . .
-   RUN npm run build
-   EXPOSE 3000
-   CMD ["npm", "run", "preview"]
-   ```
+## 🎨 Styling & Theme
 
-2. **Create Dockerfile for backend**
-   ```dockerfile
-   FROM php:8.0-apache
-   WORKDIR /var/www/html
-   COPY . .
-   RUN apt-get update && apt-get install -y \
-       libpq-dev \
-       && docker-php-ext-install pdo pdo_pgsql
-   EXPOSE 80
-   ```
+### Neon Theme Elements
+- **Gradient Backgrounds** with neon effects
+- **Glowing Borders** on interactive elements
+- **Animated Transitions** for smooth UX
+- **Color Scheme**: Primary blues, accent purples
+- **Typography**: Modern sans-serif fonts
 
-3. **Create docker-compose.yml**
-   ```yaml
-   version: '3.8'
-   services:
-     frontend:
-       build: .
-       ports:
-         - "3000:3000"
-     backend:
-       build: ./backend
-       ports:
-         - "8000:80"
-     database:
-       image: postgres:13
-       environment:
-         POSTGRES_DB: neonstore
-         POSTGRES_USER: postgres
-         POSTGRES_PASSWORD: password
-       volumes:
-         - postgres_data:/var/lib/postgresql/data
-   ```
+### Responsive Design
+- **Mobile-first** approach
+- **Breakpoints**: sm, md, lg, xl
+- **Flexible Grid** layouts
+- **Touch-friendly** interactions
 
-## 🔐 Default Accounts
+## 🐛 Troubleshooting
 
-### Admin Accounts
-- **Superadmin**: `superadmin` / `admin123`
-- **Admin**: `admin` / `admin123`
+### Common Issues
 
-### User Account
-- **User**: `user` / `user123`
+#### Backend Connection Issues
+```bash
+# Check PHP server
+php -S localhost:3000 -t public
 
-## 📊 API Endpoints
+# Verify database connection
+php setup.php
+```
 
-### Authentication
-- `POST /api/auth.php` - Login/Register
-- `GET /api/auth.php?action=me` - Get current user
-- `GET /api/auth.php?action=users` - Get all users (Superadmin only)
+#### Frontend Build Issues
+```bash
+# Clear node modules
+rm -rf node_modules package-lock.json
+npm install
 
-### Products
-- `GET /api/products.php` - Get all products
-- `GET /api/products.php?id={id}` - Get product by ID
-- `POST /api/products.php` - Create product (Admin only)
-- `PUT /api/products.php` - Update product (Admin only)
-- `DELETE /api/products.php` - Delete product (Admin only)
+# Check environment variables
+cat frontend/env
+```
 
-### Categories
-- `GET /api/categories.php` - Get all categories
+#### Database Issues
+```bash
+# Reset database
+psql -d online_store -f backend/database/clean-schema.sql
+psql -d online_store -f backend/database/schema.sql
+```
 
-### Cart
-- `GET /api/cart.php?session_id={id}` - Get cart items
-- `POST /api/cart.php` - Add item to cart
-- `PUT /api/cart.php` - Update cart item
-- `DELETE /api/cart.php` - Remove item from cart
+## 📝 License
 
-### Orders
-- `GET /api/orders.php` - Get orders
-- `POST /api/orders.php` - Create order
-
-## 🎨 Theme Customization
-
-The application uses a custom neon theme with the following color palette:
-
-- **Primary**: Neon Green (`hsl(142 76% 36%)`)
-- **Secondary**: Neon Purple (`hsl(280 100% 70%)`)
-- **Accent**: Neon Blue (`hsl(200 100% 70%)`)
-- **Background**: Dark (`hsl(240 10% 3.9%)`)
-- **Foreground**: Light (`hsl(0 0% 98%)`)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new features
-5. Run the test suite
-6. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📝 License
+## 📞 Support
 
-This project is licensed under the MIT License.
+For support, email support@example.com or create an issue in the GitHub repository.
 
-## 🆘 Support
+## 🎉 Acknowledgments
 
-For support, please open an issue on GitHub or contact the development team.
+- **shadcn/ui** for the amazing component library
+- **Tailwind CSS** for the utility-first CSS framework
+- **React** team for the excellent frontend framework
+- **PHP** community for the robust backend language
 
 ---
 
-**Built with ❤️ using React, TypeScript, PHP, and PostgreSQL**
+**Made with ❤️ by [Your Name]**
+
+*Built for modern e-commerce with cutting-edge technology*
