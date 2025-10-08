@@ -57,10 +57,10 @@ echo "Starting application..."\n\
 # Run database setup if needed\n\
 if [ "$SETUP_DB" = "true" ]; then\n\
     echo "Setting up database..."\n\
-    php setup.php\n\
+    php setup.php || echo "Database setup failed, continuing anyway..."\n\
 fi\n\
 \n\
-# Start Apache\n\
+echo "Starting Apache..."\n\
 apache2-foreground' > /usr/local/bin/start.sh \
     && chmod +x /usr/local/bin/start.sh
 
