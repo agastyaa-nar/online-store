@@ -47,6 +47,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { api, Category } from "@/services/api";
 import { formatPrice } from "@/utils/formatPrice";
+import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog";
 
 interface Product {
   id: string;
@@ -80,6 +81,11 @@ const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("products");
+  
+  // Delete confirmation states
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; name: string; type: 'product' | 'user' } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Mock stats data
   const stats = [
@@ -170,15 +176,27 @@ const AdminDashboard = () => {
     return category ? category.name : null;
   };
 
-  const handleDeleteProduct = async (productId: string) => {
+  const handleDeleteProduct = (productId: string) => {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      setItemToDelete({ id: productId, name: product.name, type: 'product' });
+      setDeleteDialogOpen(true);
+    }
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (!itemToDelete) return;
     try {
-      const result = await api.deleteProduct(productId);
+      setIsDeleting(true);
+      const result = await api.deleteProduct(itemToDelete.id);
       if (result.success) {
         toast({
           title: "Product deleted",
           description: "Product has been removed successfully.",
         });
         loadData();
+        setDeleteDialogOpen(false);
+        setItemToDelete(null);
       } else {
         toast({
           title: "Error",
@@ -192,18 +210,32 @@ const AdminDashboard = () => {
         description: "Failed to delete product",
         variant: "destructive",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
-  const handleDeleteUser = async (userId: string) => {
+  const handleDeleteUser = (userId: string) => {
+    const user = users.find(u => u.id === userId);
+    if (user) {
+      setItemToDelete({ id: userId, name: user.username, type: 'user' });
+      setDeleteDialogOpen(true);
+    }
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!itemToDelete) return;
     try {
-      const result = await api.deleteUser(userId);
+      setIsDeleting(true);
+      const result = await api.deleteUser(itemToDelete.id);
       if (result.success) {
         toast({
           title: "User deleted",
           description: "User has been removed successfully.",
         });
         loadData();
+        setDeleteDialogOpen(false);
+        setItemToDelete(null);
       } else {
         toast({
           title: "Error",
@@ -217,6 +249,8 @@ const AdminDashboard = () => {
         description: "Failed to delete user",
         variant: "destructive",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -627,6 +661,21 @@ const AdminDashboard = () => {
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onClose={() => {
+          setDeleteDialogOpen(false);
+          setItemToDelete(null);
+        }}
+        onConfirm={itemToDelete?.type === 'product' ? confirmDeleteProduct : confirmDeleteUser}
+        title={`Delete ${itemToDelete?.type === 'product' ? 'Product' : 'User'}`}
+        description={`Are you sure you want to delete this ${itemToDelete?.type}? This action cannot be undone.`}
+        itemName={itemToDelete?.name || ''}
+        itemType={itemToDelete?.type || 'product'}
+        isLoading={isDeleting}
+      />
     </div>
   );
 };
