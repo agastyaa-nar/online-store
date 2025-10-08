@@ -255,7 +255,7 @@ const Index = () => {
               </p>
             </div>
             <Button asChild variant="outline">
-              <Link to="/category/electronics">
+              <Link to="/collection">
                 View All
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Link>
