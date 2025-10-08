@@ -28,6 +28,15 @@ class Database
             $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
             $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
             $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+            
+            // For Render, try alternative environment variable names
+            if (getenv('RENDER')) {
+                $host = getenv('DB_HOST') ?: getenv('DATABASE_HOST') ?: $host;
+                $dbname = getenv('DB_NAME') ?: getenv('DATABASE_NAME') ?: $dbname;
+                $username = getenv('DB_USER') ?: getenv('DATABASE_USER') ?: $username;
+                $password = getenv('DB_PASS') ?: getenv('DATABASE_PASSWORD') ?: $password;
+                $port = getenv('DB_PORT') ?: getenv('DATABASE_PORT') ?: $port;
+            }
         }
 
         try {

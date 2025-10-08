@@ -31,6 +31,17 @@ try {
         $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
         $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
         $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+        
+        // For Render, try to construct DATABASE_URL from individual variables
+        if (getenv('RENDER')) {
+            echo "Running on Render, attempting to construct database connection...\n";
+            // Render provides database connection info through individual env vars
+            $host = getenv('DB_HOST') ?: getenv('DATABASE_HOST') ?: 'localhost';
+            $dbname = getenv('DB_NAME') ?: getenv('DATABASE_NAME') ?: 'online_store';
+            $username = getenv('DB_USER') ?: getenv('DATABASE_USER') ?: 'postgres';
+            $password = getenv('DB_PASS') ?: getenv('DATABASE_PASSWORD') ?: '';
+            $port = getenv('DB_PORT') ?: getenv('DATABASE_PORT') ?: '5432';
+        }
     }
     
     echo "Connecting to database: $host:$port/$dbname as $username\n";
