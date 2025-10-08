@@ -14,22 +14,6 @@ if (file_exists($envFile)) {
 }
 
 try {
-    // Debug: Show all available environment variables
-    echo "=== Environment Variables Debug ===\n";
-    echo "DATABASE_URL: " . (getenv('DATABASE_URL') ?: 'not set') . "\n";
-    echo "DB_HOST: " . (getenv('DB_HOST') ?: 'not set') . "\n";
-    echo "DB_NAME: " . (getenv('DB_NAME') ?: 'not set') . "\n";
-    echo "DB_USER: " . (getenv('DB_USER') ?: 'not set') . "\n";
-    echo "DB_PASS: " . (getenv('DB_PASS') ?: 'not set') . "\n";
-    echo "DB_PORT: " . (getenv('DB_PORT') ?: 'not set') . "\n";
-    echo "DATABASE_HOST: " . (getenv('DATABASE_HOST') ?: 'not set') . "\n";
-    echo "DATABASE_NAME: " . (getenv('DATABASE_NAME') ?: 'not set') . "\n";
-    echo "DATABASE_USER: " . (getenv('DATABASE_USER') ?: 'not set') . "\n";
-    echo "DATABASE_PASSWORD: " . (getenv('DATABASE_PASSWORD') ?: 'not set') . "\n";
-    echo "DATABASE_PORT: " . (getenv('DATABASE_PORT') ?: 'not set') . "\n";
-    echo "RENDER: " . (getenv('RENDER') ?: 'not set') . "\n";
-    echo "=====================================\n";
-    
     // Check if DATABASE_URL is provided (for Render deployment)
     $databaseUrl = getenv('DATABASE_URL');
     if ($databaseUrl) {
@@ -41,31 +25,15 @@ try {
         $password = $url['pass'] ?? '';
         $port = $url['port'] ?? '5432';
     } else {
-        // Fallback to individual environment variables
+        // Use individual environment variables (configured in render.yaml)
         $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
         $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
         $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
         $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
         $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
-        
-        // For Render, try to construct DATABASE_URL from individual variables
-        if (getenv('RENDER')) {
-            echo "Running on Render, attempting to construct database connection...\n";
-            // Render provides database connection info through individual env vars
-            $host = getenv('DB_HOST') ?: getenv('DATABASE_HOST') ?: 'localhost';
-            $dbname = getenv('DB_NAME') ?: getenv('DATABASE_NAME') ?: 'online_store';
-            $username = getenv('DB_USER') ?: getenv('DATABASE_USER') ?: 'postgres';
-            $password = getenv('DB_PASS') ?: getenv('DATABASE_PASSWORD') ?: '';
-            $port = getenv('DB_PORT') ?: getenv('DATABASE_PORT') ?: '5432';
-        }
     }
     
-    echo "Final connection parameters:\n";
-    echo "Host: $host\n";
-    echo "Port: $port\n";
-    echo "Database: $dbname\n";
-    echo "Username: $username\n";
-    echo "Password: " . (empty($password) ? 'empty' : 'set') . "\n";
+    echo "Connecting to database: $host:$port/$dbname as $username\n";
 
     // Connect to PostgreSQL with retry logic
     $maxRetries = 10;

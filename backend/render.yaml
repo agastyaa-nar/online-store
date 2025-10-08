@@ -14,13 +14,16 @@ services:
         value: "true"
       - key: PORT
         value: "80"
+      - key: DB_HOST
+        value: "dpg-d3j0q9jipnbc73eggf7g-a"
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_NAME
+        value: "online_store_j9yf"
+      - key: DB_USER
+        value: "online_store_j9yf_user"
+      - key: DB_PASS
+        value: "iL2050gJC0eIv6sztyfgpmsL41ZU5dgF"
     healthCheckPath: /health
     buildCommand: ""
     startCommand: ""
-
-databases:
-  - name: online-store-db
-    plan: free
-    databaseName: online_store
-    user: postgres
-    link: online-store-backend
