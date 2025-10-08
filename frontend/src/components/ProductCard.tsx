@@ -2,7 +2,7 @@ import { ShoppingCart, Heart, Star, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { formatPrice } from "@/utils/formatPrice";
 
@@ -29,6 +29,7 @@ const ProductCard = ({
 }: ProductCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const navigate = useNavigate();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -53,63 +54,65 @@ const ProductCard = ({
         </Badge>
       )}
 
-      <Link to={`/product/${id}`} className="block">
-        <div className="relative aspect-square overflow-hidden bg-muted/20">
+      <div className="relative aspect-square overflow-hidden bg-muted/20">
+        <Link to={`/product/${id}`} className="block h-full">
           <img
             src={image}
             alt={name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
+        </Link>
+        
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none" />
+        
+        {/* Action buttons */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-8 w-8 bg-background/90 backdrop-blur-sm hover:bg-background neon-border hover:neon-glow-purple transition-all duration-300"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsWishlisted(!isWishlisted);
+            }}
+          >
+            <Heart
+              className={`h-4 w-4 transition-colors neon-text ${
+                isWishlisted ? "fill-red-500 text-red-500" : "text-muted-foreground hover:text-red-500"
+              }`}
+            />
+          </Button>
           
-          {/* Overlay on hover */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-          
-          {/* Action buttons */}
-          <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Button
-              variant="secondary"
-              size="icon"
-              className="h-8 w-8 bg-background/90 backdrop-blur-sm hover:bg-background neon-border hover:neon-glow-purple transition-all duration-300"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsWishlisted(!isWishlisted);
-              }}
-            >
-              <Heart
-                className={`h-4 w-4 transition-colors neon-text ${
-                  isWishlisted ? "fill-red-500 text-red-500" : "text-muted-foreground hover:text-red-500"
-                }`}
-              />
-            </Button>
-            
-            <Button
-              variant="secondary"
-              size="icon"
-              className="h-8 w-8 bg-background/90 backdrop-blur-sm hover:bg-background neon-border hover:neon-glow-blue transition-all duration-300"
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.href = `/product/${id}`;
-              }}
-            >
-              <Eye className="h-4 w-4 text-muted-foreground hover:text-primary neon-text" />
-            </Button>
-          </div>
-
-          {/* Quick Add to Cart - Mobile */}
-          <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:hidden">
-            <Button
-              size="sm"
-              className="w-full gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300"
-              onClick={handleAddToCart}
-              disabled={isAddingToCart}
-            >
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              {isAddingToCart ? "Adding..." : "Add to Cart"}
-            </Button>
-          </div>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-8 w-8 bg-background/90 backdrop-blur-sm hover:bg-background neon-border hover:neon-glow-blue transition-all duration-300"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate(`/product/${id}`);
+            }}
+          >
+            <Eye className="h-4 w-4 text-muted-foreground hover:text-primary neon-text" />
+          </Button>
         </div>
-      </Link>
+
+        {/* Quick Add to Cart - Mobile */}
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:hidden">
+          <Button
+            size="sm"
+            className="w-full gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300"
+            onClick={handleAddToCart}
+            disabled={isAddingToCart}
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            {isAddingToCart ? "Adding..." : "Add to Cart"}
+          </Button>
+        </div>
+      </div>
 
       <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
         {/* Category */}
