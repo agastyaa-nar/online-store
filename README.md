@@ -1,12 +1,24 @@
 # 🛍️ ArchStore - Modern E-Commerce Platform
 
 <div align="center">
-  <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/TypeScript-4.9.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
-  <img src="https://img.shields.io/badge/PostgreSQL-15-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/Docker-20.10-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  <!-- React -->
+  <img src="https://img.shields.io/badge/React-18.2.0-000000?style=for-the-badge&logo=react&logoColor=61DAFB&labelColor=000000&color=000000" alt="React" />
+  
+  <!-- TypeScript -->
+  <img src="https://img.shields.io/badge/TypeScript-4.9.5-000000?style=for-the-badge&logo=typescript&logoColor=3178C6&labelColor=000000&color=000000" alt="TypeScript" />
+  
+  <!-- PHP -->
+  <img src="https://img.shields.io/badge/PHP-8.2-000000?style=for-the-badge&logo=php&logoColor=777BB4&labelColor=000000&color=000000" alt="PHP" />
+  
+  <!-- PostgreSQL -->
+  <img src="https://img.shields.io/badge/PostgreSQL-15-000000?style=for-the-badge&logo=postgresql&logoColor=4169E1&labelColor=000000&color=000000" alt="PostgreSQL" />
+  
+  <!-- Docker -->
+  <img src="https://img.shields.io/badge/Docker-20.10-000000?style=for-the-badge&logo=docker&logoColor=0db7ed&labelColor=000000&color=000000" alt="Docker" />
 </div>
+
+
+
 
 <div align="center">
   <h3>🚀 Modern, Scalable, and User-Friendly E-Commerce Solution</h3>
