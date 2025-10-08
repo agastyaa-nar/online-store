@@ -14,6 +14,16 @@ if (file_exists($envFile)) {
 }
 
 try {
+    // Debug: Show environment variables
+    echo "=== Environment Variables Debug ===\n";
+    echo "DB_HOST: " . (getenv('DB_HOST') ?: 'not set') . "\n";
+    echo "DB_NAME: " . (getenv('DB_NAME') ?: 'not set') . "\n";
+    echo "DB_USER: " . (getenv('DB_USER') ?: 'not set') . "\n";
+    echo "DB_PASS: " . (getenv('DB_PASS') ?: 'not set') . "\n";
+    echo "DB_PORT: " . (getenv('DB_PORT') ?: 'not set') . "\n";
+    echo "DATABASE_URL: " . (getenv('DATABASE_URL') ?: 'not set') . "\n";
+    echo "=====================================\n";
+    
     // Check if DATABASE_URL is provided (for Render deployment)
     $databaseUrl = getenv('DATABASE_URL');
     if ($databaseUrl) {
@@ -33,7 +43,12 @@ try {
         $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
     }
     
-    echo "Connecting to database: $host:$port/$dbname as $username\n";
+    echo "Final connection parameters:\n";
+    echo "Host: $host\n";
+    echo "Port: $port\n";
+    echo "Database: $dbname\n";
+    echo "Username: $username\n";
+    echo "Password: " . (empty($password) ? 'empty' : 'set') . "\n";
 
     // Connect to PostgreSQL with retry logic
     $maxRetries = 10;

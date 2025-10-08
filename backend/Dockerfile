@@ -54,6 +54,16 @@ fi
 RUN echo '#!/bin/bash\n\
 echo "Starting application..."\n\
 \n\
+# Create .env file with database configuration if not exists\n\
+if [ ! -f /var/www/html/.env ]; then\n\
+    echo "Creating .env file with database configuration..."\n\
+    echo "DB_HOST=${DB_HOST:-dpg-d3j0q9jipnbc73eggf7g-a}" >> /var/www/html/.env\n\
+    echo "DB_NAME=${DB_NAME:-online_store_j9yf}" >> /var/www/html/.env\n\
+    echo "DB_USER=${DB_USER:-online_store_j9yf_user}" >> /var/www/html/.env\n\
+    echo "DB_PASS=${DB_PASS:-iL2050gJC0eIv6sztyfgpmsL41ZU5dgF}" >> /var/www/html/.env\n\
+    echo "DB_PORT=${DB_PORT:-5432}" >> /var/www/html/.env\n\
+fi\n\
+\n\
 # Run database setup if needed\n\
 if [ "$SETUP_DB" = "true" ]; then\n\
     echo "Setting up database..."\n\
