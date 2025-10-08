@@ -29,7 +29,7 @@ const UserLogin = () => {
     
     try {
       // Use API directly to get user data
-      const response = await fetch('http://localhost:8080/auth', {
+      const response = await fetch('https://online-store-1-lhxk.onrender.com/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
