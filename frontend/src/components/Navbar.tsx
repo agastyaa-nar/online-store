@@ -63,20 +63,20 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="container mx-auto flex h-16 items-center justify-between px-2 sm:px-4">
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center space-x-2 hover:opacity-80 transition-opacity group"
+          className="flex items-center space-x-1 sm:space-x-2 hover:opacity-80 transition-opacity group"
         >
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center neon-glow group-hover:animate-float">
-            <Zap className="h-6 w-6 text-white" />
+          <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center neon-glow group-hover:animate-float">
+            <Zap className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-primary neon-text">
+            <span className="text-lg sm:text-xl font-bold text-primary neon-text">
               Arch Store
             </span>
-            <span className="text-xs text-muted-foreground -mt-1">
+            <span className="text-xs text-muted-foreground -mt-1 hidden sm:block">
               Made by Narr
             </span>
           </div>
@@ -230,21 +230,24 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <Button
                 asChild
                 variant="ghost"
                 size="sm"
-                className="neon-border hover:neon-glow transition-all duration-300"
+                className="neon-border hover:neon-glow transition-all duration-300 text-xs sm:text-sm px-2 sm:px-3"
               >
                 <Link to="/login">Login</Link>
               </Button>
               <Button
                 asChild
                 size="sm"
-                className="gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300 text-white"
+                className="gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300 text-white text-xs sm:text-sm px-2 sm:px-3"
               >
-                <Link to="/register">Register</Link>
+                <Link to="/register">
+                  <span className="hidden xs:inline">Register</span>
+                  <span className="xs:hidden">Sign Up</span>
+                </Link>
               </Button>
             </div>
           )}
@@ -274,7 +277,7 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
       {/* Mobile/Tablet Search */}
       {searchOpen && (
         <div className="border-t border-border bg-background/95 backdrop-blur lg:hidden">
-          <div className="container mx-auto px-4 py-3">
+          <div className="container mx-auto px-2 sm:px-4 py-3">
             <form onSubmit={handleSearch} className="flex items-center gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
