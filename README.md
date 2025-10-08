@@ -474,8 +474,8 @@ Brief description of changes
 - [Wiki](https://github.com/agastyaa-nar/online-store/wiki)
 
 ### **Contact**
-- **Developer**: Agastyaa Nar
-- **Email**: agastyaa.nar@example.com
+- **Developer**: Dhanar Agastya Rakalangi
+- **Email**: agastyadhanar@gmail.com
 - **GitHub**: [@agastyaa-nar](https://github.com/agastyaa-nar)
 
 ---
@@ -512,5 +512,5 @@ SOFTWARE.
 
 <div align="center">
   <h3>🌟 Star this repository if you found it helpful! 🌟</h3>
-  <p>Made with ❤️ by <a href="https://github.com/agastyaa-nar">Agastyaa Nar</a></p>
+  <p>Made with ❤️ by <a href="https://github.com/agastyaa-nar">Dhanar Agastya Rakalangi</a></p>
 </div>
