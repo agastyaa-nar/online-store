@@ -14,26 +14,56 @@ if (file_exists($envFile)) {
 }
 
 try {
-    // Use environment variables (from Docker or file)
-    $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
-    $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
-    $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
-    $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
-    $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+    // Check if DATABASE_URL is provided (for Render deployment)
+    $databaseUrl = getenv('DATABASE_URL');
+    if ($databaseUrl) {
+        echo "Using DATABASE_URL format\n";
+        $url = parse_url($databaseUrl);
+        $host = $url['host'] ?? 'localhost';
+        $dbname = ltrim($url['path'] ?? '/online_store', '/');
+        $username = $url['user'] ?? 'postgres';
+        $password = $url['pass'] ?? '';
+        $port = $url['port'] ?? '5432';
+    } else {
+        // Fallback to individual environment variables
+        $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
+        $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
+        $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
+        $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
+        $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+    }
     
     echo "Connecting to database: $host:$port/$dbname as $username\n";
-    echo "Environment check - DB_HOST: " . (getenv('DB_HOST') ?: 'not set') . "\n";
+    echo "Environment check - DATABASE_URL: " . (getenv('DATABASE_URL') ? 'set' : 'not set') . "\n";
 
-    // Connect to PostgreSQL
-    $pdo = new PDO(
-        "pgsql:host=$host;port=$port;dbname=$dbname",
-        $username,
-        $password,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
+    // Connect to PostgreSQL with retry logic
+    $maxRetries = 10;
+    $retryDelay = 2;
+    $pdo = null;
+    
+    for ($i = 0; $i < $maxRetries; $i++) {
+        try {
+            $pdo = new PDO(
+                "pgsql:host=$host;port=$port;dbname=$dbname",
+                $username,
+                $password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]
+            );
+            echo "Database connection successful on attempt " . ($i + 1) . "\n";
+            break;
+        } catch (PDOException $e) {
+            echo "Connection attempt " . ($i + 1) . " failed: " . $e->getMessage() . "\n";
+            if ($i < $maxRetries - 1) {
+                echo "Retrying in $retryDelay seconds...\n";
+                sleep($retryDelay);
+            } else {
+                throw $e;
+            }
+        }
+    }
 
     // Read and execute schema
     $schema = file_get_contents(__DIR__ . '/database/schema.sql');
