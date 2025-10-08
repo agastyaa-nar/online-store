@@ -1,5 +1,5 @@
 // Get API base URL from environment or use fallback
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://online-store-1-lhxk.onrender.com';
 
 export interface Product {
   id: string;
