@@ -210,13 +210,13 @@ npm run dev
 ![Homepage](https://i.imgur.com/L0FqH0S.png)
 
 ### **Product Catalog**
-![Products](https://via.placeholder.com/800x400/1f2937/ffffff?text=Product+Catalog+with+Filtering)
+![Products](https://i.imgur.com/PEA6nY6.png)
 
 ### **Shopping Cart**
-![Cart](https://via.placeholder.com/800x400/1f2937/ffffff?text=Shopping+Cart+Management)
+![Cart](https://i.imgur.com/pjHkmA1.png)
 
 ### **Admin Dashboard**
-![Admin](https://via.placeholder.com/800x400/1f2937/ffffff?text=Admin+Dashboard+Analytics)
+![Admin](https://i.imgur.com/FN2K9XJ.png)
 
 ---
 
