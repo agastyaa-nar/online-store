@@ -111,17 +111,17 @@ const ProductCard = ({
         </div>
       </Link>
 
-      <div className="p-4 space-y-3">
+      <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
         {/* Category */}
         {category && (
-          <Badge variant="secondary" className="text-xs">
+          <Badge variant="secondary" className="text-xs shrink-0">
             {category}
           </Badge>
         )}
 
         {/* Product Name */}
         <Link to={`/product/${id}`}>
-          <h3 className="font-medium text-sm leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="font-medium text-sm leading-tight line-clamp-2 group-hover:text-primary transition-colors break-words">
             {name}
           </h3>
         </Link>
@@ -146,14 +146,14 @@ const ProductCard = ({
         </div>
 
         {/* Price and Add to Cart */}
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-col min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-primary neon-text">
+              <span className="text-base sm:text-lg font-bold text-primary neon-text">
                 ${formatPrice(discountedPrice)}
               </span>
               {discount > 0 && (
-                <span className="text-sm text-muted-foreground line-through">
+                <span className="text-xs sm:text-sm text-muted-foreground line-through">
                   ${formatPrice(price)}
                 </span>
               )}
@@ -163,12 +163,12 @@ const ProductCard = ({
           {/* Desktop Add to Cart */}
           <Button
             size="sm"
-            className="gap-2 hidden md:flex gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300"
+            className="gap-1 sm:gap-2 hidden md:flex gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300 shrink-0"
             onClick={handleAddToCart}
             disabled={isAddingToCart}
           >
-            <ShoppingCart className="h-4 w-4" />
-            {isAddingToCart ? "Adding..." : "Add"}
+            <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">{isAddingToCart ? "Adding..." : "Add"}</span>
           </Button>
         </div>
       </div>

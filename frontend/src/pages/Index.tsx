@@ -123,8 +123,8 @@ const Index = () => {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-glow" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" />
         
-        <div className="container mx-auto px-4 py-16 lg:py-24 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 py-12 sm:py-16 lg:py-24 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Column - Content */}
             <div className="space-y-8">
               <div className="space-y-6">
@@ -135,7 +135,7 @@ const Index = () => {
                 </div>
 
                 {/* Main Headline */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
                   <span className="text-foreground">Discover Amazing</span>
                   <br />
                   <span className="text-primary neon-text">
@@ -144,7 +144,7 @@ const Index = () => {
                 </h1>
 
                 {/* Description */}
-                <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
+                <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
                   Shop the latest trends in electronics, fashion, home & garden, sports, and books. 
                   Quality products at unbeatable prices.
                 </p>
@@ -164,22 +164,22 @@ const Index = () => {
               </div>
 
               {/* Features Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
-                <div className="flex items-center gap-2 text-sm p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
-                  <Truck className="h-4 w-4 text-primary neon-text" />
-                  <span className="font-medium">Free Shipping</span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-6 sm:pt-8">
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
+                  <Truck className="h-3 w-3 sm:h-4 sm:w-4 text-primary neon-text shrink-0" />
+                  <span className="font-medium truncate">Free Shipping</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
-                  <Shield className="h-4 w-4 text-primary neon-text" />
-                  <span className="font-medium">Secure Payment</span>
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
+                  <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-primary neon-text shrink-0" />
+                  <span className="font-medium truncate">Secure Payment</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
-                  <RotateCcw className="h-4 w-4 text-primary neon-text" />
-                  <span className="font-medium">Easy Returns</span>
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
+                  <RotateCcw className="h-3 w-3 sm:h-4 sm:w-4 text-primary neon-text shrink-0" />
+                  <span className="font-medium truncate">Easy Returns</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
-                  <Star className="h-4 w-4 text-primary neon-text" />
-                  <span className="font-medium">5-Star Rating</span>
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3 rounded-lg bg-card/50 neon-border hover:neon-glow transition-all duration-300">
+                  <Star className="h-3 w-3 sm:h-4 sm:w-4 text-primary neon-text shrink-0" />
+                  <span className="font-medium truncate">5-Star Rating</span>
                 </div>
               </div>
             </div>

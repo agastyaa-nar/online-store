@@ -83,7 +83,7 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
         </Link>
 
         {/* Center - Filter by & Search (Desktop) */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -91,7 +91,7 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                 className="gap-2 hover:bg-secondary/50 neon-border hover:neon-glow transition-all duration-300"
               >
                 <Sparkles className="h-5 w-5 text-primary neon-text" />
-                <span className="hidden lg:inline">Filter by</span>
+                <span className="hidden xl:inline">Filter by</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-80">
@@ -125,7 +125,7 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-10 pr-4"
+                  className="w-48 xl:w-64 pl-10 pr-4"
                 />
               </div>
               <Button
@@ -133,33 +133,33 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                 size="sm"
                 className="ml-2 gradient-neon neon-glow hover:neon-glow-purple transition-all duration-300"
               >
-                <Search className="h-4 w-4 mr-2" />
-                Search
+                <Search className="h-4 w-4 xl:mr-2" />
+                <span className="hidden xl:inline">Search</span>
               </Button>
             </form>
           </div>
         </div>
 
         {/* Right - User Menu & Cart */}
-        <div className="flex items-center gap-2">
-          {/* Mobile Search Button */}
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* Mobile/Tablet Search Button */}
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setSearchOpen(!searchOpen)}
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
 
-          {/* Mobile Filter Button */}
+          {/* Mobile/Tablet Filter Button */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="md:hidden">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="sm" className="lg:hidden">
+                <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80">
+            <SheetContent side="right" className="w-80 sm:w-96">
               <div className="py-6">
                 <h2 className="mb-6 text-xl font-semibold">Categories</h2>
                 <div className="space-y-2">
@@ -271,9 +271,9 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
         </div>
       </div>
 
-      {/* Mobile Search */}
+      {/* Mobile/Tablet Search */}
       {searchOpen && (
-        <div className="border-t border-border bg-background/95 backdrop-blur md:hidden">
+        <div className="border-t border-border bg-background/95 backdrop-blur lg:hidden">
           <div className="container mx-auto px-4 py-3">
             <form onSubmit={handleSearch} className="flex items-center gap-2">
               <div className="relative flex-1">
@@ -283,17 +283,19 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 pr-4"
                   autoFocus
                 />
               </div>
-              <Button type="submit" size="sm">
-                Search
+              <Button type="submit" size="sm" className="shrink-0">
+                <Search className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Search</span>
               </Button>
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
+                className="shrink-0"
                 onClick={() => setSearchOpen(false)}
               >
                 <X className="h-4 w-4" />

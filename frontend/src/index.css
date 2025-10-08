@@ -67,6 +67,11 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+
+  html {
+    overflow-x: hidden;
   }
 }
 
@@ -121,6 +126,31 @@ All colors MUST be HSL.
   
   .animate-float {
     animation: float 3s ease-in-out infinite;
+  }
+
+  /* Responsive utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Prevent horizontal overflow */
+  .overflow-x-hidden {
+    overflow-x: hidden;
+  }
+
+  /* Container responsive padding */
+  .container-responsive {
+    @apply px-4 sm:px-6 lg:px-8;
   }
 }
 
