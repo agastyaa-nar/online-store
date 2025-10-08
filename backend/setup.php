@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/src/autoload.php';
 
-// Load environment variables
+// Load environment variables from file if it exists
 $envFile = __DIR__ . '/env';
 if (file_exists($envFile)) {
     $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -14,11 +14,15 @@ if (file_exists($envFile)) {
 }
 
 try {
-    $host = $_ENV['DB_HOST'] ?? 'localhost';
-    $dbname = $_ENV['DB_NAME'] ?? 'online_store';
-    $username = $_ENV['DB_USER'] ?? 'postgres';
-    $password = $_ENV['DB_PASS'] ?? '';
-    $port = $_ENV['DB_PORT'] ?? '5432';
+    // Use environment variables (from Docker or file)
+    $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
+    $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
+    $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
+    $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
+    $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+    
+    echo "Connecting to database: $host:$port/$dbname as $username\n";
+    echo "Environment check - DB_HOST: " . (getenv('DB_HOST') ?: 'not set') . "\n";
 
     // Connect to PostgreSQL
     $pdo = new PDO(

@@ -154,12 +154,21 @@ class ProductController
 
     private function getUserFromToken()
     {
+        $token = null;
+        
+        // Try Authorization header first
         $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-        if (empty($authHeader) || !preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+        if (!empty($authHeader) && preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+            $token = $matches[1];
+        }
+        // Fallback to query parameter (for CORS issues)
+        elseif (!empty($_GET['token'])) {
+            $token = $_GET['token'];
+        }
+        
+        if (empty($token)) {
             return null;
         }
-
-        $token = $matches[1];
         
         try {
             $decoded = json_decode(base64_decode($token), true);

@@ -1,5 +1,5 @@
 // Get API base URL from environment or use fallback
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 export interface Product {
   id: string;
@@ -51,11 +51,12 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/products?token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/products`;
     
-    const response = await fetch(`${API_BASE_URL}/products`, {
+    const response = await fetch(url, {
       method: 'POST',
       headers,
       credentials: 'include',
@@ -70,11 +71,12 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/products?token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/products`;
     
-    const response = await fetch(`${API_BASE_URL}/products`, {
+    const response = await fetch(url, {
       method: 'PUT',
       headers,
       credentials: 'include',
@@ -89,11 +91,12 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/products?token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/products`;
     
-    const response = await fetch(`${API_BASE_URL}/products`, {
+    const response = await fetch(url, {
       method: 'DELETE',
       headers,
       credentials: 'include',
@@ -243,15 +246,22 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/auth?action=me&token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/auth?action=me`;
     
-    const response = await fetch(`${API_BASE_URL}/auth?action=me`, {
-      headers,
-      credentials: 'include'
-    });
-    return response.json();
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers,
+        credentials: 'include'
+      });
+      return response.json();
+    } catch (error) {
+      console.error('getCurrentUser error:', error);
+      return { success: false, message: 'Network error' };
+    }
   },
 
   async getAllUsers() {
@@ -260,11 +270,12 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/auth?action=users&token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/auth?action=users`;
     
-    const response = await fetch(`${API_BASE_URL}/auth?action=users`, {
+    const response = await fetch(url, {
       headers,
       credentials: 'include'
     });
@@ -277,11 +288,12 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/auth?action=create_user&token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/auth?action=create_user`;
     
-    const response = await fetch(`${API_BASE_URL}/auth?action=create_user`, {
+    const response = await fetch(url, {
       method: 'POST',
       headers,
       credentials: 'include',
@@ -296,11 +308,12 @@ export const api = {
       'Content-Type': 'application/json',
     };
     
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    // Use query parameter instead of Authorization header for CORS compatibility
+    const url = token 
+      ? `${API_BASE_URL}/auth?token=${encodeURIComponent(token)}`
+      : `${API_BASE_URL}/auth`;
     
-    const response = await fetch(`${API_BASE_URL}/auth`, {
+    const response = await fetch(url, {
       method: 'DELETE',
       headers,
       credentials: 'include',

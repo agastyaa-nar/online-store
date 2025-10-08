@@ -1,0 +1,10 @@
+# Ignore files that shouldn't be copied to Docker container
+node_modules
+.git
+.gitignore
+README.md
+.env
+env
+*.log
+.DS_Store
+Thumbs.db

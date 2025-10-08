@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=online_store
+      - DB_USER=postgres
+      - DB_PASS=password
+      - DB_PORT=5432
+      - JWT_SECRET=your-secret-key-here-change-this-in-production
+      - CORS_ORIGIN=http://localhost:3000
+      - SETUP_DB=true
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=online_store
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+
+volumes:
+  postgres_data:

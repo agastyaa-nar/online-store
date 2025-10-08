@@ -19,14 +19,22 @@ if (file_exists(__DIR__ . '/../env')) {
 }
 
 // Set headers for CORS
-header('Access-Control-Allow-Origin: ' . ($_ENV['CORS_ORIGIN'] ?? 'http://localhost:5173'));
+$origin = $_SERVER['HTTP_ORIGIN'] ?? 'http://localhost:8081';
+header('Access-Control-Allow-Origin: ' . $origin);
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Max-Age: 86400'); // Cache preflight for 24 hours
 header('Content-Type: application/json');
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Log preflight request for debugging
+    error_log("DEBUG: OPTIONS preflight request received");
+    error_log("DEBUG: Authorization header in OPTIONS: " . ($_SERVER['HTTP_AUTHORIZATION'] ?? 'NOT SET'));
+    
+    // For CORS preflight, we need to allow Authorization header
+    header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, Authorization');
     http_response_code(200);
     exit();
 }

@@ -105,13 +105,20 @@ class AuthController
 
     private function getCurrentUser()
     {
+        // Debug logging
+        error_log("DEBUG: getCurrentUser called");
+        error_log("DEBUG: Authorization header: " . ($_SERVER['HTTP_AUTHORIZATION'] ?? 'NOT SET'));
+        error_log("DEBUG: Token query param: " . ($_GET['token'] ?? 'NOT SET'));
+        
         $user = $this->getUserFromToken();
         if (!$user) {
+            error_log("DEBUG: getUserFromToken returned null");
             http_response_code(401);
             echo json_encode(['success' => false, 'message' => 'Invalid token']);
             return;
         }
 
+        error_log("DEBUG: User found: " . $user['username']);
         unset($user['password_hash']);
         echo json_encode(['success' => true, 'user' => $user]);
     }
@@ -321,13 +328,21 @@ class AuthController
 
     private function getUserFromToken()
     {
-        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        $token = null;
         
-        if (empty($authHeader) || !preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+        // Try Authorization header first
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        if (!empty($authHeader) && preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+            $token = $matches[1];
+        }
+        // Fallback to query parameter (for CORS issues)
+        elseif (!empty($_GET['token'])) {
+            $token = $_GET['token'];
+        }
+        
+        if (empty($token)) {
             return null;
         }
-
-        $token = $matches[1];
         
         try {
             $decoded = json_decode(base64_decode($token), true);

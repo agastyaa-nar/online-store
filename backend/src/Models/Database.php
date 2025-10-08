@@ -12,11 +12,11 @@ class Database
 
     private function __construct()
     {
-        $host = $_ENV['DB_HOST'] ?? 'localhost';
-        $dbname = $_ENV['DB_NAME'] ?? 'online_store';
-        $username = $_ENV['DB_USER'] ?? 'postgres';
-        $password = $_ENV['DB_PASS'] ?? '';
-        $port = $_ENV['DB_PORT'] ?? '5432';
+        $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
+        $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
+        $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
+        $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
+        $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
 
         try {
             $this->connection = new PDO(

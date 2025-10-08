@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: online-store-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./
+    plan: free
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://your-frontend-url.onrender.com
+      - key: SETUP_DB
+        value: "true"
+    healthCheckPath: /health
+    buildCommand: ""
+    startCommand: ""
+
+databases:
+  - name: online-store-db
+    plan: free
+    databaseName: online_store
+    user: postgres
