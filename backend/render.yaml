@@ -12,6 +12,8 @@ services:
         value: https://your-frontend-url.onrender.com
       - key: SETUP_DB
         value: "true"
+      - key: PORT
+        value: "80"
     healthCheckPath: /health
     buildCommand: ""
     startCommand: ""

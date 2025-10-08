@@ -12,11 +12,23 @@ class Database
 
     private function __construct()
     {
-        $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
-        $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
-        $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
-        $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
-        $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+        // Check if DATABASE_URL is provided (for Render deployment)
+        $databaseUrl = getenv('DATABASE_URL');
+        if ($databaseUrl) {
+            $url = parse_url($databaseUrl);
+            $host = $url['host'] ?? 'localhost';
+            $dbname = ltrim($url['path'] ?? '/online_store', '/');
+            $username = $url['user'] ?? 'postgres';
+            $password = $url['pass'] ?? '';
+            $port = $url['port'] ?? '5432';
+        } else {
+            // Fallback to individual environment variables
+            $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
+            $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'online_store');
+            $username = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'postgres');
+            $password = getenv('DB_PASS') ?: ($_ENV['DB_PASS'] ?? '');
+            $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? '5432');
+        }
 
         try {
             $this->connection = new PDO(

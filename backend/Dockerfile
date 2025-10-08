@@ -50,14 +50,40 @@ RewriteCond %{REQUEST_FILENAME} !-d\n\
 RewriteRule ^(.*)$ index.php [QSA,L]' > /var/www/html/public/.htaccess; \
 fi
 
+# Install PostgreSQL client for health checks
+RUN apt-get update && apt-get install -y postgresql-client && apt-get clean
+
 # Create startup script for database initialization
 RUN echo '#!/bin/bash\n\
 # Wait for database to be ready\n\
 echo "Waiting for database..."\n\
-while ! pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER; do\n\
-    sleep 1\n\
-done\n\
-echo "Database is ready!"\n\
+\n\
+# Parse DATABASE_URL if it exists (for Render)\n\
+if [ -n "$DATABASE_URL" ]; then\n\
+    # Extract connection details from DATABASE_URL\n\
+    DB_HOST=$(echo $DATABASE_URL | sed -n "s/.*@\\([^:]*\\):.*/\\1/p")\n\
+    DB_PORT=$(echo $DATABASE_URL | sed -n "s/.*:\\([0-9]*\\)\\/.*/\\1/p")\n\
+    DB_USER=$(echo $DATABASE_URL | sed -n "s/.*:\\/\\/\\([^:]*\\):.*/\\1/p")\n\
+    DB_NAME=$(echo $DATABASE_URL | sed -n "s/.*\\/\\([^?]*\\).*/\\1/p")\n\
+    \n\
+    # Set environment variables for PHP\n\
+    export DB_HOST="$DB_HOST"\n\
+    export DB_PORT="$DB_PORT"\n\
+    export DB_USER="$DB_USER"\n\
+    export DB_NAME="$DB_NAME"\n\
+    export DB_PASS=$(echo $DATABASE_URL | sed -n "s/.*:\\/\\/[^:]*:\\([^@]*\\)@.*/\\1/p")\n\
+fi\n\
+\n\
+# Wait for database with proper parameters\n\
+if [ -n "$DB_HOST" ] && [ -n "$DB_USER" ]; then\n\
+    while ! pg_isready -h "$DB_HOST" -p "${DB_PORT:-5432}" -U "$DB_USER"; do\n\
+        echo "Waiting for database..."\n\
+        sleep 2\n\
+    done\n\
+    echo "Database is ready!"\n\
+else\n\
+    echo "Database connection parameters not found, skipping wait..."\n\
+fi\n\
 \n\
 # Run database setup if needed\n\
 if [ "$SETUP_DB" = "true" ]; then\n\
@@ -68,9 +94,6 @@ fi\n\
 # Start Apache\n\
 apache2-foreground' > /usr/local/bin/start.sh \
     && chmod +x /usr/local/bin/start.sh
-
-# Install PostgreSQL client for health checks
-RUN apt-get update && apt-get install -y postgresql-client && apt-get clean
 
 # Expose port 80
 EXPOSE 80
