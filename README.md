@@ -207,7 +207,7 @@ npm run dev
 ## 📱 Screenshots
 
 ### **Homepage**
-![Homepage](https://via.placeholder.com/800x400/1f2937/ffffff?text=Modern+Homepage+Design)
+![Homepage]([https://imgur.com/a/4OFvxg2])
 
 ### **Product Catalog**
 ![Products](https://via.placeholder.com/800x400/1f2937/ffffff?text=Product+Catalog+with+Filtering)
