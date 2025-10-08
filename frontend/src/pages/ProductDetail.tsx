@@ -12,48 +12,67 @@ import { useCart } from "@/contexts/CartContext";
 import { api, Product } from "@/services/api";
 import { formatPrice } from "@/utils/formatPrice";
 
-// Mock product data
-const productData: Record<string, any> = {
-  "1": {
-    id: "1",
-    name: "Premium Wireless Headphones",
-    price: 299.99,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80",
-      "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800&q=80",
-    ],
-    description: "Experience crystal-clear sound with our flagship headphones. Featuring advanced noise cancellation and premium comfort.",
-    colors: ["Black", "Silver", "Blue"],
-    sizes: ["One Size"],
-    inStock: true,
-  },
-};
-
-const relatedProducts = [
-  {
-    id: "2",
-    name: "Smart Watch Pro",
-    price: 399.99,
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
-  },
-  {
-    id: "3",
-    name: "Portable Speaker",
-    price: 149.99,
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80",
-  },
-];
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [relatedLoading, setRelatedLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState("Black");
   const { cartCount, addToCart } = useCart();
   const { toast } = useToast();
+
+  // Load related products
+  const loadRelatedProducts = async (categoryId?: string) => {
+    try {
+      setRelatedLoading(true);
+      let products: Product[] = [];
+      
+      if (categoryId && categoryId !== "unknown") {
+        // Load products from same category
+        products = await api.getProductsByCategory(categoryId);
+      } else {
+        // Load all products as fallback
+        products = await api.getProducts();
+      }
+      
+      // Filter out current product and limit to 4 items
+      const filteredProducts = products
+        .filter(p => p.id !== id)
+        .slice(0, 4);
+      
+      setRelatedProducts(filteredProducts);
+    } catch (error) {
+      console.error('Error loading related products:', error);
+      // Use fallback mock data if API fails
+      setRelatedProducts([
+        {
+          id: "2",
+          name: "Smart Watch Pro",
+          price: 399.99,
+          image_url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
+          description: "Advanced smartwatch with health monitoring",
+          category_id: "electronics",
+          stock_quantity: 10,
+          is_active: true
+        },
+        {
+          id: "3",
+          name: "Portable Speaker",
+          price: 149.99,
+          image_url: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80",
+          description: "High-quality portable speaker for any occasion",
+          category_id: "electronics",
+          stock_quantity: 15,
+          is_active: true
+        }
+      ]);
+    } finally {
+      setRelatedLoading(false);
+    }
+  };
 
   // Load product data
   useEffect(() => {
@@ -63,6 +82,8 @@ const ProductDetail = () => {
           const productData = await api.getProduct(id);
           if (productData) {
             setProduct(productData);
+            // Load related products after main product is loaded
+            loadRelatedProducts(productData.category_id);
           } else {
             // Fallback to mock data if API fails
             console.warn('Product not found in API, using fallback data');
@@ -77,6 +98,8 @@ const ProductDetail = () => {
               is_active: false
             };
             setProduct(fallbackProduct);
+            // Load related products even for fallback
+            loadRelatedProducts("unknown");
           }
         } catch (error) {
           console.error('Error loading product:', error);
@@ -92,6 +115,8 @@ const ProductDetail = () => {
             is_active: false
           };
           setProduct(fallbackProduct);
+          // Load related products even for fallback
+          loadRelatedProducts("unknown");
         }
       }
       setLoading(false);
@@ -299,15 +324,34 @@ const ProductDetail = () => {
         {/* Related Products */}
         <section className="mt-20">
           <h2 className="mb-8 text-2xl font-bold">You May Also Like</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {relatedProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                {...product}
-                onAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+          {relatedLoading ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-square bg-muted rounded-lg mb-4"></div>
+                  <div className="h-4 bg-muted rounded mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-2/3"></div>
+                </div>
+              ))}
+            </div>
+          ) : relatedProducts.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {relatedProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image_url}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">No related products found.</p>
+            </div>
+          )}
         </section>
       </div>
 
