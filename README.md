@@ -1,4 +1,4 @@
-# 🛍️ aRCHStore - Modern E-Commerce Platform
+# 🛍️ ArchStore - Modern E-Commerce Platform
 
 <div align="center">
   <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
