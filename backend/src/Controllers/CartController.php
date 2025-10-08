@@ -43,22 +43,31 @@ class CartController
 
     private function getItems()
     {
-        $sessionId = $_GET['session_id'] ?? '';
+        try {
+            $sessionId = $_GET['session_id'] ?? '';
 
-        if (empty($sessionId)) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Session ID is required']);
-            return;
+            if (empty($sessionId)) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'Session ID is required']);
+                return;
+            }
+
+            $items = $this->cartModel->getItems($sessionId);
+            $total = $this->cartModel->getTotal($sessionId);
+
+            echo json_encode([
+                'success' => true,
+                'items' => $items,
+                'total' => $total
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Database connection failed. Please try again later.',
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $items = $this->cartModel->getItems($sessionId);
-        $total = $this->cartModel->getTotal($sessionId);
-
-        echo json_encode([
-            'success' => true,
-            'items' => $items,
-            'total' => $total
-        ]);
     }
 
     private function addItem()

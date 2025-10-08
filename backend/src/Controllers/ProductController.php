@@ -46,23 +46,32 @@ class ProductController
 
     private function getAll()
     {
-        $search = $_GET['search'] ?? null;
-        $categoryId = $_GET['category'] ?? null;
-        $productId = $_GET['id'] ?? null;
+        try {
+            $search = $_GET['search'] ?? null;
+            $categoryId = $_GET['category'] ?? null;
+            $productId = $_GET['id'] ?? null;
 
-        if ($productId) {
-            $product = $this->productModel->findById($productId);
-            if ($product) {
-                echo json_encode(['success' => true, 'product' => $product]);
-            } else {
-                http_response_code(404);
-                echo json_encode(['success' => false, 'message' => 'Product not found']);
+            if ($productId) {
+                $product = $this->productModel->findById($productId);
+                if ($product) {
+                    echo json_encode(['success' => true, 'product' => $product]);
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['success' => false, 'message' => 'Product not found']);
+                }
+                return;
             }
-            return;
-        }
 
-        $products = $this->productModel->getAll($search, $categoryId);
-        echo json_encode(['success' => true, 'products' => $products]);
+            $products = $this->productModel->getAll($search, $categoryId);
+            echo json_encode(['success' => true, 'products' => $products]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Database connection failed. Please try again later.',
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     private function create()

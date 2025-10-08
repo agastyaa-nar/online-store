@@ -4,8 +4,38 @@
  * No external dependencies required
  */
 
+// Set error reporting to prevent HTML error output
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 // Load autoloader
 require_once __DIR__ . '/../src/autoload.php';
+
+// Set global error handler to return JSON instead of HTML
+set_error_handler(function($severity, $message, $file, $line) {
+    if (error_reporting() & $severity) {
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Internal server error',
+            'error' => 'Database connection failed'
+        ]);
+        exit;
+    }
+});
+
+set_exception_handler(function($exception) {
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Internal server error',
+        'error' => 'Database connection failed'
+    ]);
+    exit;
+});
 
 // Load environment variables
 if (file_exists(__DIR__ . '/../env')) {
