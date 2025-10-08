@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -7,14 +7,32 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, CreditCard, Truck, Shield } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/utils/formatPrice";
 
 const Cart = () => {
   const { cartItems, cartCount, updateQuantity, removeFromCart, getTotalPrice } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const subtotal = getTotalPrice();
   const shipping = subtotal > 100 ? 0 : 10; // Free shipping over $100
   const total = subtotal + shipping;
+
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please login to proceed with checkout",
+        variant: "destructive",
+      });
+      navigate("/login");
+      return;
+    }
+    navigate("/checkout");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -157,11 +175,12 @@ const Cart = () => {
                   </div>
                 </div>
 
-                <Button asChild className="w-full mt-6 h-12 text-base">
-                  <Link to="/checkout">
-                    <CreditCard className="h-4 w-4 mr-2" />
-                    Proceed to Checkout
-                  </Link>
+                <Button 
+                  onClick={handleCheckout}
+                  className="w-full mt-6 h-12 text-base"
+                >
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Proceed to Checkout
                 </Button>
               </Card>
 

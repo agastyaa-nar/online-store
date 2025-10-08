@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ import {
   Shield
 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/utils/formatPrice";
@@ -54,11 +55,25 @@ const Checkout = () => {
     cardName: "",
   });
   const { cartItems, cartCount, getTotalPrice, clearCart } = useCart();
+  const { isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const subtotal = getTotalPrice();
   const shipping = formData.shippingMethod === "express" ? 20 : 10;
   const total = subtotal + shipping;
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please login to access checkout",
+        variant: "destructive",
+      });
+      navigate("/login");
+    }
+  }, [isAuthenticated, isLoading, navigate, toast]);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -139,6 +154,23 @@ const Checkout = () => {
         return false;
     }
   };
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading checkout...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   if (cartItems.length === 0) {
     return (
