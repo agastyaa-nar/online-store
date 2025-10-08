@@ -63,9 +63,35 @@ const ProductDetail = () => {
           const productData = await api.getProduct(id);
           if (productData) {
             setProduct(productData);
+          } else {
+            // Fallback to mock data if API fails
+            console.warn('Product not found in API, using fallback data');
+            const fallbackProduct = {
+              id: id,
+              name: "Product Not Found",
+              price: 0,
+              image_url: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&q=80",
+              description: "This product is currently unavailable.",
+              category_id: "unknown",
+              stock_quantity: 0,
+              is_active: false
+            };
+            setProduct(fallbackProduct);
           }
         } catch (error) {
           console.error('Error loading product:', error);
+          // Show fallback product when API fails
+          const fallbackProduct = {
+            id: id,
+            name: "Product Unavailable",
+            price: 0,
+            image_url: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&q=80",
+            description: "This product is currently unavailable. Please try again later.",
+            category_id: "unknown",
+            stock_quantity: 0,
+            is_active: false
+          };
+          setProduct(fallbackProduct);
         }
       }
       setLoading(false);
@@ -95,9 +121,65 @@ const ProductDetail = () => {
         <div className="container flex min-h-[60vh] items-center justify-center px-4">
           <div className="text-center">
             <h1 className="mb-4 text-2xl font-bold">Product Not Found</h1>
-            <Link to="/">
-              <Button>Back to Home</Button>
-            </Link>
+            <p className="text-muted-foreground mb-6">
+              The product you're looking for doesn't exist or has been removed.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Link to="/">
+                <Button>Back to Home</Button>
+              </Link>
+              <Link to="/collection">
+                <Button variant="outline">Browse Products</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Handle unavailable products
+  if (!product.is_active || product.stock_quantity === 0) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar cartItemsCount={cartCount} />
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+                  <img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-6">
+                <div>
+                  <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+                  <p className="text-muted-foreground">{product.description}</p>
+                </div>
+                
+                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <h3 className="font-semibold text-destructive mb-2">Product Unavailable</h3>
+                  <p className="text-sm text-destructive/80">
+                    This product is currently out of stock or no longer available.
+                  </p>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Link to="/collection">
+                    <Button variant="outline">Browse Other Products</Button>
+                  </Link>
+                  <Link to="/">
+                    <Button>Back to Home</Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <Footer />
