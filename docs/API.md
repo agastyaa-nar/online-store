@@ -1,4 +1,4 @@
-# 🔌 TechStore API Documentation
+# 🔌 ArchStore API Documentation
 
 ## Base URL
 ```

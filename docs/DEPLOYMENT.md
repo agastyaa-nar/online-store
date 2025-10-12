@@ -1,4 +1,4 @@
-# 🚀 TechStore Deployment Guide
+# 🚀 ArchStore Deployment Guide
 
 ## Prerequisites
 
@@ -71,7 +71,7 @@ php setup.php
 # render.yaml
 services:
   - type: web
-    name: techstore-backend
+    name: archstore-backend
     env: php
     plan: free
     buildCommand: composer install
@@ -96,7 +96,7 @@ services:
 # Add to render.yaml
 services:
   - type: pserv
-    name: techstore-db
+    name: archstore-db
     plan: free
     databaseName: online_store
 ```
@@ -150,7 +150,7 @@ DEBUG=false
 #### Frontend (.env.production)
 ```env
 VITE_API_BASE_URL=https://your-backend-api.com
-VITE_APP_NAME=TechStore
+VITE_APP_NAME=ArchStore
 VITE_APP_VERSION=1.0.0
 ```
 
@@ -226,7 +226,7 @@ pm2 save
 // ecosystem.config.js
 module.exports = {
   apps: [{
-    name: 'techstore-backend',
+    name: 'archstore-backend',
     script: 'php',
     args: '-S 0.0.0.0:8080 public/index.php',
     instances: 2,
@@ -351,7 +351,7 @@ imagemin src/assets/* --out-dir=dist/assets
 version: '3.8'
 services:
   app:
-    image: techstore-backend
+    image: archstore-backend
     deploy:
       replicas: 3
     environment:

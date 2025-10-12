@@ -1,6 +1,6 @@
-# 🤝 Contributing to TechStore
+# 🤝 Contributing to ArchStore
 
-Thank you for your interest in contributing to TechStore! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to ArchStore! This document provides guidelines and information for contributors.
 
 ## 📋 Table of Contents
 
@@ -597,6 +597,6 @@ Contributors will be recognized in:
 
 ---
 
-**Thank you for contributing to TechStore! 🚀**
+**Thank you for contributing to ArchStore! 🚀**
 
-Every contribution, no matter how small, helps make TechStore better for everyone.
+Every contribution, no matter how small, helps make ArchStore better for everyone.
