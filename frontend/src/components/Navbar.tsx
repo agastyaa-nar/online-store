@@ -76,9 +76,6 @@ const Navbar = ({ cartItemsCount = 0 }: NavbarProps) => {
             <span className="text-lg sm:text-xl font-bold text-primary neon-text">
               Arch Store
             </span>
-            <span className="text-xs text-muted-foreground -mt-1 hidden sm:block">
-              Made by Narr
-            </span>
           </div>
         </Link>
 
